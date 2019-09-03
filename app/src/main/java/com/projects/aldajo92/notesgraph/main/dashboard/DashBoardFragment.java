@@ -24,8 +24,7 @@ public class DashBoardFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.layout_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         return view;
     }
 
@@ -40,7 +39,7 @@ public class DashBoardFragment extends Fragment {
         list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
         list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
         list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Final", "description", new ArrayList<>()));
 
         recyclerView = getActivity().findViewById(R.id.recyclerView_dashboard);
         recyclerView.setAdapter(new DataSetAdapter(list));

@@ -1,62 +1,61 @@
 package com.projects.aldajo92.notesgraph.main;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.main.dashboard.DashBoardFragment;
 import com.projects.aldajo92.notesgraph.main.favorite.FavoritesFragment;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private FragmentPagerAdapter pagerAdapter;
 
     private DashBoardFragment dashBoardFragment;
     private FavoritesFragment favoritesFragment;
 
+    private BottomNavigationView bottomNavigationView;
+
+    private Fragment active;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_home);
+        setContentView(R.layout.activity_home);
 
         dashBoardFragment = DashBoardFragment.createInstance();
         favoritesFragment = FavoritesFragment.createInstance();
 
-        pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                switch (position){
-                    case 0:
-                        return dashBoardFragment;
-                    default:
-                        return favoritesFragment;
-                }
-            }
+        active = dashBoardFragment;
 
-            @Override
-            public int getCount() {
-                return 2;
-            }
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-            @Nullable
-            @Override
-            public CharSequence getPageTitle(int position) {
-                String title = getItem(position).getClass().getName();
-                return title.subSequence(title.lastIndexOf(".") + 1, title.length());
-            }
-        };
-
-        ViewPager viewPager = findViewById(R.id.viewPager_home);
-        viewPager.setAdapter(pagerAdapter);
-
-        TabLayout tabLayout = findViewById(R.id.tabLayout_home);
-        tabLayout.setupWithViewPager(viewPager);
+        getSupportFragmentManager().beginTransaction().add(R.id.container, favoritesFragment, "2").hide(favoritesFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, dashBoardFragment, "1").commit();
     }
 
     public static String TAG = "adjgf";
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.action_dashboard:
+                getSupportFragmentManager().beginTransaction().hide(active).show(dashBoardFragment).commit();
+                active = dashBoardFragment;
+                return true;
+
+            case R.id.action_favorites:
+                getSupportFragmentManager().beginTransaction().hide(active).show(favoritesFragment).commit();
+                active = favoritesFragment;
+                return true;
+        }
+        return false;
+
+    }
 }
