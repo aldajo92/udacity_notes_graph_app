@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.projects.aldajo92.notesgraph.dashboard.HomeActivity;
+import com.projects.aldajo92.notesgraph.main.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

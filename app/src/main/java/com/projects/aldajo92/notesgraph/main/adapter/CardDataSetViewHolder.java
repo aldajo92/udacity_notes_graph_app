@@ -1,4 +1,4 @@
-package com.projects.aldajo92.notesgraph.dashboard.main;
+package com.projects.aldajo92.notesgraph.main.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

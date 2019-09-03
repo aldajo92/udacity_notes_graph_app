@@ -1,4 +1,4 @@
-package com.projects.aldajo92.notesgraph.dashboard.main;
+package com.projects.aldajo92.notesgraph.main.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,11 +11,11 @@ import com.projects.aldajo92.notesgraph.R;
 
 import java.util.List;
 
-public class DashBoardAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> {
+public class DataSetAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> {
 
     private List<String> items;
 
-    public DashBoardAdapter(List<String> items, Context context) {
+    public DataSetAdapter(List<String> items, Context context) {
         this.items = items;
     }
 
