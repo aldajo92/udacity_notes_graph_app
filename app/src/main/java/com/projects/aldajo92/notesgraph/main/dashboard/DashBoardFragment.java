@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.projects.aldajo92.notesgraph.R;
+import com.projects.aldajo92.notesgraph.main.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.main.adapter.DataSetAdapter;
 
 import java.util.ArrayList;
@@ -31,19 +32,18 @@ public class DashBoardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<String> list = new ArrayList<>();
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
+        List<DataSetNoteModel> list = new ArrayList<>();
+
+        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
 
         recyclerView = getActivity().findViewById(R.id.recyclerView_dashboard);
-        recyclerView.setAdapter(new DataSetAdapter(list, getActivity()));
+        recyclerView.setAdapter(new DataSetAdapter(list));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 

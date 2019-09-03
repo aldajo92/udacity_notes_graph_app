@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.projects.aldajo92.notesgraph.R;
+import com.projects.aldajo92.notesgraph.main.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.main.adapter.DataSetAdapter;
 
 import java.util.ArrayList;
@@ -37,17 +38,14 @@ public class FavoritesFragment extends Fragment {
 
     public void showList() {
         recyclerView = view.findViewById(R.id.recyclerView_favorites);
-        List<String> list = new ArrayList<>();
-        list.add("b");
-        list.add("b");
-        list.add("b");
-        list.add("b");
-        list.add("b");
-        list.add("b");
-        list.add("b");
-        list.add("b");
+        List<DataSetNoteModel> list = new ArrayList<>();
 
-        recyclerView.setAdapter(new DataSetAdapter(list, view.getContext()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+
+        recyclerView.setAdapter(new DataSetAdapter(list));
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
 

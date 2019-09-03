@@ -41,5 +41,8 @@
     <dimen name="font_xxhuge">60sp</dimen>
 
     <dimen name="radius_border_medium">10dp</dimen>
+    <dimen name="height_graph_home">150dp</dimen>
+
+    <dimen name="button_edit_width">80dp</dimen>
 
 </resources>
