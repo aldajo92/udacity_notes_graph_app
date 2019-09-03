@@ -11,26 +11,24 @@ import com.projects.aldajo92.notesgraph.R;
 
 import java.util.List;
 
-public class DashBoardAdapter extends RecyclerView.Adapter<CardDatasetViewHolder> {
+public class DashBoardAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> {
 
     private List<String> items;
-    private Context context;
 
     public DashBoardAdapter(List<String> items, Context context) {
         this.items = items;
-        this.context = context;
     }
 
     @NonNull
     @Override
-    public CardDatasetViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CardDataSetViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_card_dataset, viewGroup, false);
-        return new CardDatasetViewHolder(view);
+        return new CardDataSetViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardDatasetViewHolder viewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull CardDataSetViewHolder viewHolder, int i) {
+        viewHolder.bindData(items.get(i));
     }
 
     @Override

@@ -16,39 +16,43 @@ import com.projects.aldajo92.notesgraph.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashBoardFragment extends Fragment {
+public class FavoritesFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.layout_dashboard, container, false);
+        View view = inflater.inflate(R.layout.layout_favorites, container, false);
+        this.view = view;
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<String> list = new ArrayList<>();
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-
-        recyclerView = getActivity().findViewById(R.id.recyclerView_dashboard);
-        recyclerView.setAdapter(new DashBoardAdapter(list, getActivity()));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        showList();
     }
 
-    public static DashBoardFragment createInstance() {
-        DashBoardFragment dashBoardFragment = new DashBoardFragment();
-        return dashBoardFragment;
+    public void showList() {
+        recyclerView = view.findViewById(R.id.recyclerView_favorites);
+        List<String> list = new ArrayList<>();
+        list.add("b");
+        list.add("b");
+        list.add("b");
+        list.add("b");
+        list.add("b");
+        list.add("b");
+        list.add("b");
+        list.add("b");
+
+        recyclerView.setAdapter(new DashBoardAdapter(list, view.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+    }
+
+    public static FavoritesFragment createInstance() {
+        FavoritesFragment favoritesFragment = new FavoritesFragment();
+        return favoritesFragment;
     }
 }

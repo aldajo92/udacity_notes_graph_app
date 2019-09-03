@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".dashboard.MainActivity">
+        <activity android:name=".dashboard.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

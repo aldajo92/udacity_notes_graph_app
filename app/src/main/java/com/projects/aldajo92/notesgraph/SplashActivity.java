@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.projects.aldajo92.notesgraph.dashboard.MainActivity;
+import com.projects.aldajo92.notesgraph.dashboard.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.layout_splash);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void launchMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }
