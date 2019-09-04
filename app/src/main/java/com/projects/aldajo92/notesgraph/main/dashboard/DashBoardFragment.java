@@ -10,22 +10,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.projects.aldajo92.notesgraph.R;
-import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.main.adapter.CardDataListener;
 import com.projects.aldajo92.notesgraph.main.adapter.DataSetAdapter;
-import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
+import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashBoardFragment extends Fragment implements CardDataListener {
+public class DashBoardFragment extends Fragment {
 
     private Context context;
 
     private RecyclerView recyclerView;
+
+    private CardDataListener cardDataListener;
 
     @Nullable
     @Override
@@ -49,32 +49,16 @@ public class DashBoardFragment extends Fragment implements CardDataListener {
         list.add(new DataSetNoteModel("Title Final", "description", new ArrayList<>()));
 
         recyclerView = view.findViewById(R.id.recyclerView_dashboard);
-        recyclerView.setAdapter(new DataSetAdapter(list, this));
+        recyclerView.setAdapter(new DataSetAdapter(list, cardDataListener));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    public void setCardDataListener(CardDataListener cardDataListener) {
+        this.cardDataListener = cardDataListener;
     }
 
     public static DashBoardFragment createInstance() {
         return new DashBoardFragment();
     }
 
-    @Override
-    public void onDelete() {
-        ConfirmDeleteDialog dialog = ConfirmDeleteDialog.createInstance(() -> Toast.makeText(context, "Delete", Toast.LENGTH_LONG).show());
-        dialog.show(getActivity().getSupportFragmentManager(), "name");
-    }
-
-    @Override
-    public void onEdit() {
-        Toast.makeText(context, "Edit", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onClick() {
-        Toast.makeText(context, "Click", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onFavorite(Boolean isChecked) {
-        Toast.makeText(context, "Favorite: " + isChecked, Toast.LENGTH_LONG).show();
-    }
 }

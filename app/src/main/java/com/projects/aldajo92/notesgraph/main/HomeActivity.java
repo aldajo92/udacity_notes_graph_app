@@ -10,15 +10,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.create.CreateGraphActivity;
+import com.projects.aldajo92.notesgraph.details.DetailGraphActivity;
+import com.projects.aldajo92.notesgraph.main.adapter.CardDataListener;
 import com.projects.aldajo92.notesgraph.main.dashboard.DashBoardFragment;
 import com.projects.aldajo92.notesgraph.main.favorite.FavoritesFragment;
+import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
 
 import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.REQUEST_CREATE_GRAPH;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CardDataListener {
 
     private DashBoardFragment dashBoardFragment;
     private FavoritesFragment favoritesFragment;
@@ -36,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         dashBoardFragment = DashBoardFragment.createInstance();
         favoritesFragment = FavoritesFragment.createInstance();
+        dashBoardFragment.setCardDataListener(this);
 
         active = dashBoardFragment;
 
@@ -85,5 +90,27 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         // Inflate the bottom_navigation_menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
+    }
+
+    @Override
+    public void onDelete() {
+        ConfirmDeleteDialog dialog = ConfirmDeleteDialog.createInstance(() -> Toast.makeText(this, "Delete", Toast.LENGTH_LONG).show());
+        dialog.show(getSupportFragmentManager(), "name");
+    }
+
+    @Override
+    public void onEdit() {
+        Toast.makeText(this, "Edit", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClick() {
+        Intent intent = new Intent(this, DetailGraphActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onFavorite(Boolean isChecked) {
+        Toast.makeText(this, "Favorite: " + isChecked, Toast.LENGTH_LONG).show();
     }
 }
