@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
-public class CreateGraphActivity extends AppCompatActivity {
+public class EditCreateGraphActivity extends AppCompatActivity {
     public static int REQUEST_EDIT_GRAPH = 0x05;
     public static int REQUEST_CREATE_GRAPH = 0x17;
 

@@ -3,7 +3,7 @@ package com.projects.aldajo92.notesgraph.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class EntryNote implements Parcelable {
+public class EntryNoteModel implements Parcelable {
 
     private long timestamp;
 
@@ -13,14 +13,14 @@ public class EntryNote implements Parcelable {
 
     private String urlPicture;
 
-    public EntryNote(long timestamp, float value, String description, String urlPicture) {
+    public EntryNoteModel(long timestamp, float value, String description, String urlPicture) {
         this.timestamp = timestamp;
         this.value = value;
         this.description = description;
         this.urlPicture = urlPicture;
     }
 
-    protected EntryNote(Parcel in) {
+    protected EntryNoteModel(Parcel in) {
         timestamp = in.readLong();
         value = in.readFloat();
         description = in.readString();
@@ -40,15 +40,15 @@ public class EntryNote implements Parcelable {
         return 0;
     }
 
-    public static final Creator<EntryNote> CREATOR = new Creator<EntryNote>() {
+    public static final Creator<EntryNoteModel> CREATOR = new Creator<EntryNoteModel>() {
         @Override
-        public EntryNote createFromParcel(Parcel in) {
-            return new EntryNote(in);
+        public EntryNoteModel createFromParcel(Parcel in) {
+            return new EntryNoteModel(in);
         }
 
         @Override
-        public EntryNote[] newArray(int size) {
-            return new EntryNote[size];
+        public EntryNoteModel[] newArray(int size) {
+            return new EntryNoteModel[size];
         }
     };
 

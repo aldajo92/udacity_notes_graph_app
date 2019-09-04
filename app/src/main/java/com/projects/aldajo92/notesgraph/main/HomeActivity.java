@@ -7,30 +7,30 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.projects.aldajo92.notesgraph.R;
-import com.projects.aldajo92.notesgraph.create.CreateGraphActivity;
+import com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity;
 import com.projects.aldajo92.notesgraph.details.DetailGraphActivity;
 import com.projects.aldajo92.notesgraph.main.adapter.CardDataListener;
 import com.projects.aldajo92.notesgraph.main.dashboard.DashBoardFragment;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
-import com.projects.aldajo92.notesgraph.models.EntryNote;
+import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.EXTRA_NOTE_MODEL;
-import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.EXTRA_POSITION;
-import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.EXTRA_REQUEST_CODE;
-import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.REQUEST_CREATE_GRAPH;
-import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.REQUEST_EDIT_GRAPH;
+import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_NOTE_MODEL;
+import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_POSITION;
+import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_REQUEST_CODE;
+import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.REQUEST_CREATE_GRAPH;
+import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.REQUEST_EDIT_GRAPH;
+import static com.projects.aldajo92.notesgraph.details.DetailGraphActivity.EXTRA_DETAIL_NOTE_MODEL;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CardDataListener {
 
@@ -68,34 +68,34 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             openCreateGraph();
         });
 
-        List<EntryNote> entryNoteList = new ArrayList<>();
-        entryNoteList.add(new EntryNote(new Date().getTime(), 12f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 14f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 15f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 16f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 17f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 18f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
-        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        List<EntryNoteModel> entryNoteModelList = new ArrayList<>();
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 12f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 14f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 15f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 16f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 17f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 18f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
+        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
 
         List<DataSetNoteModel> list = new ArrayList<>();
-        list.add(new DataSetNoteModel("Title Favorite", "description", entryNoteList));
+        list.add(new DataSetNoteModel("Title Favorite", "description", entryNoteModelList));
         list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
         list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
         list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
@@ -135,7 +135,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void openCreateGraph() {
-        Intent intent = new Intent(this, CreateGraphActivity.class);
+        Intent intent = new Intent(this, EditCreateGraphActivity.class);
         startActivityForResult(intent, REQUEST_CREATE_GRAPH);
     }
 
@@ -190,7 +190,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onEdit(DataSetNoteModel dataSetNoteModel, int position) {
-        Intent intent = new Intent(this, CreateGraphActivity.class);
+        Intent intent = new Intent(this, EditCreateGraphActivity.class);
         intent.putExtra(EXTRA_REQUEST_CODE, REQUEST_EDIT_GRAPH);
         intent.putExtra(EXTRA_NOTE_MODEL, dataSetNoteModel);
         intent.putExtra(EXTRA_POSITION, position);
@@ -200,6 +200,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onClick(DataSetNoteModel dataSetNoteModel) {
         Intent intent = new Intent(this, DetailGraphActivity.class);
+        intent.putExtra(EXTRA_DETAIL_NOTE_MODEL, dataSetNoteModel);
         startActivity(intent);
     }
 

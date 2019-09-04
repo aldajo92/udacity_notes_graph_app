@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".details.DetailGraphActivity" />
-        <activity android:name=".create.CreateGraphActivity" />
+        <activity android:name=".create.EditCreateGraphActivity" />
 
     </application>
 

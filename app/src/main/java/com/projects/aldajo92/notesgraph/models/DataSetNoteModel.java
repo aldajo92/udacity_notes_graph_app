@@ -10,26 +10,26 @@ public class DataSetNoteModel implements Parcelable {
     private String title;
     private String description;
     private String units;
-    private List<EntryNote> entryNoteList;
+    private List<EntryNoteModel> entryNoteModelList;
 
-    public DataSetNoteModel(String title, String description, String units, List<EntryNote> entryNoteList) {
+    public DataSetNoteModel(String title, String description, String units, List<EntryNoteModel> entryNoteModelList) {
         this.title = title;
         this.description = description;
         this.units = units;
-        this.entryNoteList = entryNoteList;
+        this.entryNoteModelList = entryNoteModelList;
     }
 
-    public DataSetNoteModel(String title, String description, List<EntryNote> entryNoteList) {
+    public DataSetNoteModel(String title, String description, List<EntryNoteModel> entryNoteModelList) {
         this.title = title;
         this.description = description;
-        this.entryNoteList = entryNoteList;
+        this.entryNoteModelList = entryNoteModelList;
     }
 
     protected DataSetNoteModel(Parcel in) {
         title = in.readString();
         description = in.readString();
         units = in.readString();
-        entryNoteList = in.createTypedArrayList(EntryNote.CREATOR);
+        entryNoteModelList = in.createTypedArrayList(EntryNoteModel.CREATOR);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class DataSetNoteModel implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(units);
-        dest.writeTypedList(entryNoteList);
+        dest.writeTypedList(entryNoteModelList);
     }
 
     @Override
@@ -81,11 +81,11 @@ public class DataSetNoteModel implements Parcelable {
         this.units = units;
     }
 
-    public List<EntryNote> getEntryNoteList() {
-        return entryNoteList;
+    public List<EntryNoteModel> getEntryNoteModelList() {
+        return entryNoteModelList;
     }
 
-    public void setEntryNoteList(List<EntryNote> entryNoteList) {
-        this.entryNoteList = entryNoteList;
+    public void setEntryNoteModelList(List<EntryNoteModel> entryNoteModelList) {
+        this.entryNoteModelList = entryNoteModelList;
     }
 }

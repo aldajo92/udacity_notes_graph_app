@@ -21,7 +21,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
-import com.projects.aldajo92.notesgraph.models.EntryNote;
+import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
 import com.projects.aldajo92.notesgraph.utils.CalendarUtils;
 import com.projects.aldajo92.notesgraph.views.MyMarkerView;
 
@@ -120,12 +120,12 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    private void setLineData(List<EntryNote> incomesData) {
+    private void setLineData(List<EntryNoteModel> incomesData) {
         if (incomesData != null) {
             List<Entry> linearEntryList = new ArrayList<>();
             for (int index = 0; index < incomesData.size(); index++) {
-                EntryNote entryNote = incomesData.get(index);
-                linearEntryList.add(new Entry(index, entryNote.getValue()));
+                EntryNoteModel entryNoteModel = incomesData.get(index);
+                linearEntryList.add(new Entry(index, entryNoteModel.getValue()));
             }
 
             lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
@@ -184,7 +184,7 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
         lineChart.invalidate();
         textViewTitle.setText(data.getTitle());
         textViewDescription.setText(data.getDescription());
-        setLineData(data.getEntryNoteList());
+        setLineData(data.getEntryNoteModelList());
     }
 
     public void bindListener(CardDataListener listener) {
