@@ -1,6 +1,7 @@
 package com.projects.aldajo92.notesgraph.main;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,6 @@ import com.projects.aldajo92.notesgraph.main.dashboard.DashBoardFragment;
 import com.projects.aldajo92.notesgraph.main.favorite.FavoritesFragment;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private FragmentPagerAdapter pagerAdapter;
 
     private DashBoardFragment dashBoardFragment;
     private FavoritesFragment favoritesFragment;
@@ -40,8 +39,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager().beginTransaction().add(R.id.container, dashBoardFragment, "1").commit();
     }
 
-    public static String TAG = "adjgf";
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -56,6 +53,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
         }
         return false;
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        getSupportFragmentManager().beginTransaction().remove(favoritesFragment).commit();
+        getSupportFragmentManager().beginTransaction().remove(dashBoardFragment).commit();
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 }

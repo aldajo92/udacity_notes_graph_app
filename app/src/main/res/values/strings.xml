@@ -3,4 +3,8 @@
 
     <string name="title_dashboard">Dashboard</string>
     <string name="title_favorites">Favorites</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_continue">Continue</string>
+    <string name="text_delete_item">Delete all entries</string>
+    <string name="text_ask_delete">Are you sure want to continue?</string>
 </resources>

@@ -9,4 +9,7 @@
     <color name="red_pastel">#F15A5A</color>
     <color name="background_gray01">#cdcdcd</color>
     <color name="background_gray02">#ededed</color>
+
+    <color name="clear_color">#3DA2DB</color>
+    <color name="transparent">@android:color/transparent</color>
 </resources>

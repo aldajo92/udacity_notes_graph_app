@@ -13,15 +13,18 @@ import android.view.ViewGroup;
 
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.main.DataSetNoteModel;
+import com.projects.aldajo92.notesgraph.main.EntryNote;
 import com.projects.aldajo92.notesgraph.main.adapter.DataSetAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FavoritesFragment extends Fragment {
 
-    private RecyclerView recyclerView;
     private Context context;
+
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -38,9 +41,18 @@ public class FavoritesFragment extends Fragment {
     }
 
     public void showList() {
+        List<EntryNote> entryNoteList = new ArrayList<>();
+        entryNoteList.add(new EntryNote(new Date().getTime(), 12f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 14f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 15f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 16f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 17f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 18f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+
         List<DataSetNoteModel> list = new ArrayList<>();
 
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", entryNoteList));
         list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
         list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
         list.add(new DataSetNoteModel("Title Final", "description", new ArrayList<>()));

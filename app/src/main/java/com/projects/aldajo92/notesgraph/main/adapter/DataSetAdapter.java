@@ -15,8 +15,19 @@ public class DataSetAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> 
 
     private List<DataSetNoteModel> list;
 
+    private CardDataListener cardDataListener;
+
     public DataSetAdapter(List<DataSetNoteModel> list) {
         this.list = list;
+    }
+
+    public DataSetAdapter(List<DataSetNoteModel> list, CardDataListener cardDataListener) {
+        this.list = list;
+        this.cardDataListener = cardDataListener;
+    }
+
+    public void setCardDataListener(CardDataListener cardDataListener) {
+        this.cardDataListener = cardDataListener;
     }
 
     @NonNull
@@ -29,6 +40,7 @@ public class DataSetAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull CardDataSetViewHolder viewHolder, int i) {
         viewHolder.bindData(list.get(i));
+        viewHolder.bindListener(cardDataListener);
     }
 
     @Override
