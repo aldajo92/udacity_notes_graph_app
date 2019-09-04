@@ -21,40 +21,40 @@ import java.util.List;
 
 public class DashBoardFragment extends Fragment {
 
-    private Context context;
-
     private RecyclerView recyclerView;
 
     private CardDataListener cardDataListener;
 
+    private List<DataSetNoteModel> dataSetNoteModelList = new ArrayList<>();
+    private DataSetAdapter adapter;
+
+    public DashBoardFragment() {
+        adapter = new DataSetAdapter(dataSetNoteModelList, cardDataListener);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        context = view.getContext();
-        return view;
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<DataSetNoteModel> list = new ArrayList<>();
-
-        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Final", "description", new ArrayList<>()));
 
         recyclerView = view.findViewById(R.id.recyclerView_dashboard);
-        recyclerView.setAdapter(new DataSetAdapter(list, cardDataListener));
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     public void setCardDataListener(CardDataListener cardDataListener) {
         this.cardDataListener = cardDataListener;
+        adapter.setCardDataListener(cardDataListener);
+    }
+
+    public void setDataSetNoteModelList(List<DataSetNoteModel> dataSetNoteModelList) {
+        this.dataSetNoteModelList = dataSetNoteModelList;
+        adapter.setDataSetNoteModelList(dataSetNoteModelList);
     }
 
     public static DashBoardFragment createInstance() {

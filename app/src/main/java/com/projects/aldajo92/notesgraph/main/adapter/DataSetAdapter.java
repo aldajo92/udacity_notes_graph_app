@@ -13,21 +13,26 @@ import java.util.List;
 
 public class DataSetAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> {
 
-    private List<DataSetNoteModel> list;
+    private List<DataSetNoteModel> dataSetNoteModelList;
 
     private CardDataListener cardDataListener;
 
-    public DataSetAdapter(List<DataSetNoteModel> list) {
-        this.list = list;
+    public DataSetAdapter(List<DataSetNoteModel> dataSetNoteModelList) {
+        this.dataSetNoteModelList = dataSetNoteModelList;
     }
 
-    public DataSetAdapter(List<DataSetNoteModel> list, CardDataListener cardDataListener) {
-        this.list = list;
+    public DataSetAdapter(List<DataSetNoteModel> dataSetNoteModelList, CardDataListener cardDataListener) {
+        this.dataSetNoteModelList = dataSetNoteModelList;
         this.cardDataListener = cardDataListener;
     }
 
     public void setCardDataListener(CardDataListener cardDataListener) {
         this.cardDataListener = cardDataListener;
+    }
+
+    public void setDataSetNoteModelList(List<DataSetNoteModel> dataSetNoteModelList) {
+        this.dataSetNoteModelList = dataSetNoteModelList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,12 +44,12 @@ public class DataSetAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull CardDataSetViewHolder viewHolder, int i) {
-        viewHolder.bindData(list.get(i));
+        viewHolder.bindData(dataSetNoteModelList.get(i));
         viewHolder.bindListener(cardDataListener);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return dataSetNoteModelList.size();
     }
 }

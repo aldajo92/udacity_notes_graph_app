@@ -17,15 +17,20 @@ import com.projects.aldajo92.notesgraph.create.CreateGraphActivity;
 import com.projects.aldajo92.notesgraph.details.DetailGraphActivity;
 import com.projects.aldajo92.notesgraph.main.adapter.CardDataListener;
 import com.projects.aldajo92.notesgraph.main.dashboard.DashBoardFragment;
-import com.projects.aldajo92.notesgraph.main.favorite.FavoritesFragment;
+import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
+import com.projects.aldajo92.notesgraph.models.EntryNote;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.REQUEST_CREATE_GRAPH;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CardDataListener {
 
     private DashBoardFragment dashBoardFragment;
-    private FavoritesFragment favoritesFragment;
+    private DashBoardFragment favoritesFragment;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -39,8 +44,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_home);
 
         dashBoardFragment = DashBoardFragment.createInstance();
-        favoritesFragment = FavoritesFragment.createInstance();
         dashBoardFragment.setCardDataListener(this);
+
+        favoritesFragment = DashBoardFragment.createInstance();
 
         active = dashBoardFragment;
 
@@ -55,6 +61,61 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         fabButton.setOnClickListener(v -> {
             openCreateGraph();
         });
+
+        List<EntryNote> entryNoteList = new ArrayList<>();
+        entryNoteList.add(new EntryNote(new Date().getTime(), 12f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 14f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 15f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 16f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 17f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 18f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+        entryNoteList.add(new EntryNote(new Date().getTime(), 20f, "description", ""));
+
+        List<DataSetNoteModel> list = new ArrayList<>();
+        list.add(new DataSetNoteModel("Title Favorite", "description", entryNoteList));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        list.add(new DataSetNoteModel("Title Final", "description", new ArrayList<>()));
+        dashBoardFragment.setDataSetNoteModelList(list);
     }
 
     private void openCreateGraph() {
@@ -87,7 +148,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the bottom_navigation_menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
     }

@@ -96,7 +96,6 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
         xAxis.enableGridDashedLine(10f, 10f, 0f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
-//        xAxis.setLabelRotationAngle(-90);
 
         YAxis axisLeft = lineChart.getAxisLeft();
         axisLeft.removeAllLimitLines();
@@ -130,13 +129,19 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
             linearEntryList.add(new Entry(index, entryNote.getValue()));
         }
 
+
         lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
-                return CalendarUtils.timestampToCalendarString(
-                        incomesData.get((int) value).getTimestamp(),
-                        CalendarUtils.HEADER_FORMAT
-                );
+                if(incomesData.isEmpty()){
+                    return super.getAxisLabel(value, axis);
+                } else {
+                    return CalendarUtils.timestampToCalendarString(
+                            incomesData.get((int) value).getTimestamp(),
+                            CalendarUtils.HEADER_FORMAT
+                    );
+                }
+
             }
         });
 
@@ -175,6 +180,8 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindData(DataSetNoteModel data) {
+        lineChart.clear();
+        lineChart.invalidate();
         textViewTitle.setText(data.getTitle());
         textViewDescription.setText(data.getDescription());
         setLineData(data.getEntryNoteList());
