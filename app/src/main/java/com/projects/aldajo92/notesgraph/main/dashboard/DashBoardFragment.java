@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.projects.aldajo92.notesgraph.R;
-import com.projects.aldajo92.notesgraph.main.DataSetNoteModel;
+import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.main.adapter.CardDataListener;
 import com.projects.aldajo92.notesgraph.main.adapter.DataSetAdapter;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
@@ -74,7 +74,7 @@ public class DashBoardFragment extends Fragment implements CardDataListener {
     }
 
     @Override
-    public void onFavorite() {
-        Toast.makeText(context, "Favorite", Toast.LENGTH_LONG).show();
+    public void onFavorite(Boolean isChecked) {
+        Toast.makeText(context, "Favorite: " + isChecked, Toast.LENGTH_LONG).show();
     }
 }

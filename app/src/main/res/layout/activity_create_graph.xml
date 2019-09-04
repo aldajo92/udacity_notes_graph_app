@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/spacing_xlarge">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_xlarge"
+        android:layout_marginTop="@dimen/spacing_huge"
+        android:text="@string/text_title" />
+
+    <EditText
+        android:id="@+id/editText_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_normal"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:hint="@string/text_title_hint" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_xlarge"
+        android:layout_marginTop="@dimen/spacing_huge"
+        android:text="@string/text_description" />
+
+    <EditText
+        android:id="@+id/editText_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:padding="@dimen/spacing_medium"
+        android:background="@drawable/background_input"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:hint="@string/text_description_hint" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_xlarge"
+        android:layout_marginTop="@dimen/spacing_huge"
+        android:text="Units" />
+
+    <EditText
+        android:id="@+id/editText_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:hint="Add units for your data" />
+
+    <Button
+        android:id="@+id/button_create"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:padding="@dimen/spacing_xxlarge"
+        android:layout_marginTop="@dimen/spacing_xxhuge"
+        android:layout_height="wrap_content"
+        android:text="Create"/>
+
+</LinearLayout>

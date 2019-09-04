@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_more_vertical" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/imageView_favorite"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -40,8 +40,8 @@
             app:layout_constraintTop_toTopOf="@id/textView_title"
             app:layout_constraintBottom_toBottomOf="@id/textView_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:tint="@color/red_pastel"
-            app:srcCompat="@drawable/ic_favorite" />
+            android:checked="false"
+            android:button="@drawable/background_favorite" />
 
         <TextView
             android:id="@+id/textView_title"

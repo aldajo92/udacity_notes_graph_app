@@ -1,17 +1,22 @@
 package com.projects.aldajo92.notesgraph.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.projects.aldajo92.notesgraph.R;
+import com.projects.aldajo92.notesgraph.create.CreateGraphActivity;
 import com.projects.aldajo92.notesgraph.main.dashboard.DashBoardFragment;
 import com.projects.aldajo92.notesgraph.main.favorite.FavoritesFragment;
+
+import static com.projects.aldajo92.notesgraph.create.CreateGraphActivity.REQUEST_CREATE_GRAPH;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -19,6 +24,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private FavoritesFragment favoritesFragment;
 
     private BottomNavigationView bottomNavigationView;
+
+    private FloatingActionButton fabButton;
 
     private Fragment active;
 
@@ -35,8 +42,19 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        fabButton = findViewById(R.id.fabButton);
+
         getSupportFragmentManager().beginTransaction().add(R.id.container, favoritesFragment, "2").hide(favoritesFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.container, dashBoardFragment, "1").commit();
+
+        fabButton.setOnClickListener(v -> {
+            openCreateGraph();
+        });
+    }
+
+    private void openCreateGraph() {
+        Intent intent = new Intent(this, CreateGraphActivity.class);
+        startActivityForResult(intent, REQUEST_CREATE_GRAPH);
     }
 
     @Override
@@ -60,5 +78,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager().beginTransaction().remove(favoritesFragment).commit();
         getSupportFragmentManager().beginTransaction().remove(dashBoardFragment).commit();
         super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the bottom_navigation_menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
     }
 }

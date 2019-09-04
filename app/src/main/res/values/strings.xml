@@ -7,4 +7,15 @@
     <string name="text_continue">Continue</string>
     <string name="text_delete_item">Delete all entries</string>
     <string name="text_ask_delete">Are you sure want to continue?</string>
+
+    <string name="title_create_graph">Create Graph</string>
+
+    <string name="text_title">Title (required)</string>
+    <string name="text_title_hint">Add a title for your graph</string>
+    <string name="text_description">Description</string>
+    <string name="text_description_hint">Add your description</string>
+    <string name="check_input_data">Please fill required fields.</string>
+
+    <string name="title_add">Add a graph</string>
+    <string name="title_about">About</string>
 </resources>

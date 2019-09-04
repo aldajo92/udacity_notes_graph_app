@@ -1,4 +1,4 @@
-package com.projects.aldajo92.notesgraph.main;
+package com.projects.aldajo92.notesgraph.models;
 
 public class EntryNote {
 

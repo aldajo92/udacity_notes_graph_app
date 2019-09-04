@@ -7,5 +7,5 @@ public interface CardDataListener {
 
     void onClick();
 
-    void onFavorite();
+    void onFavorite(Boolean isChecked);
 }

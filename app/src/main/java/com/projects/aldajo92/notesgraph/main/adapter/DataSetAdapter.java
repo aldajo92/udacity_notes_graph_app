@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.projects.aldajo92.notesgraph.R;
-import com.projects.aldajo92.notesgraph.main.DataSetNoteModel;
+import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 import java.util.List;
 

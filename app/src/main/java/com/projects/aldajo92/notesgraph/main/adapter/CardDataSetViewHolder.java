@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,8 +22,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.projects.aldajo92.notesgraph.R;
-import com.projects.aldajo92.notesgraph.main.DataSetNoteModel;
-import com.projects.aldajo92.notesgraph.main.EntryNote;
+import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
+import com.projects.aldajo92.notesgraph.models.EntryNote;
 import com.projects.aldajo92.notesgraph.utils.CalendarUtils;
 import com.projects.aldajo92.notesgraph.views.MyMarkerView;
 
@@ -37,7 +39,7 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
 
     private ImageButton buttonEdit;
     private ImageButton buttonDelete;
-    private ImageView imageViewFavorite;
+    private CheckBox checkFavorite;
 
     private CardDataListener listener;
 
@@ -51,7 +53,7 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
 
         buttonDelete = itemView.findViewById(R.id.button_delete);
         buttonEdit = itemView.findViewById(R.id.button_edit);
-        imageViewFavorite = itemView.findViewById(R.id.imageView_favorite);
+        checkFavorite = itemView.findViewById(R.id.imageView_favorite);
 
         buttonEdit.setOnClickListener(v -> {
             if(listener != null){
@@ -71,9 +73,9 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        imageViewFavorite.setOnClickListener(v -> {
+        checkFavorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(listener != null){
-                listener.onFavorite();
+                listener.onFavorite(isChecked);
             }
         });
 
