@@ -29,6 +29,7 @@ public class DataSetNoteModel implements Parcelable {
         title = in.readString();
         description = in.readString();
         units = in.readString();
+        entryNoteList = in.createTypedArrayList(EntryNote.CREATOR);
     }
 
     @Override
@@ -36,6 +37,7 @@ public class DataSetNoteModel implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(units);
+        dest.writeTypedList(entryNoteList);
     }
 
     @Override

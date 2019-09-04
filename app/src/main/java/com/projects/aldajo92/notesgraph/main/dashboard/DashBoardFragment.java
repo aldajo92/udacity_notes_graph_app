@@ -1,6 +1,5 @@
 package com.projects.aldajo92.notesgraph.main.dashboard;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -61,4 +60,10 @@ public class DashBoardFragment extends Fragment {
         return new DashBoardFragment();
     }
 
+    public void updateData(DataSetNoteModel model, int position) {
+        if (position >= 0){
+            this.dataSetNoteModelList.set(position, model);
+            adapter.updateItem(position, model);
+        }
+    }
 }

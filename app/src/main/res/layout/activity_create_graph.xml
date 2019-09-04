@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="top"
+        android:textSize="@dimen/font_normal"
         android:padding="@dimen/spacing_medium"
         android:background="@drawable/background_input"
         android:layout_marginTop="@dimen/spacing_medium"
@@ -42,14 +43,15 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_xlarge"
         android:layout_marginTop="@dimen/spacing_huge"
-        android:text="Units" />
+        android:text="@string/text_units" />
 
     <EditText
         android:id="@+id/editText_units"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:hint="Add units for your data" />
+        android:textSize="@dimen/font_normal"
+        android:hint="@string/text_units_hint" />
 
     <Button
         android:id="@+id/button_create"
@@ -58,6 +60,6 @@
         android:padding="@dimen/spacing_xxlarge"
         android:layout_marginTop="@dimen/spacing_xxhuge"
         android:layout_height="wrap_content"
-        android:text="Create"/>
+        android:text="@string/text_create"/>
 
 </LinearLayout>

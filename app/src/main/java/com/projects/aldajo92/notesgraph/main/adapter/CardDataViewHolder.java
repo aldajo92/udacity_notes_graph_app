@@ -7,9 +7,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -30,7 +28,7 @@ import com.projects.aldajo92.notesgraph.views.MyMarkerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
+public class CardDataViewHolder extends RecyclerView.ViewHolder {
 
     private TextView textViewTitle;
     private TextView textViewDescription;
@@ -43,8 +41,10 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
 
     private CardDataListener listener;
 
+    private DataSetNoteModel dataSetNoteModel;
 
-    public CardDataSetViewHolder(@NonNull View itemView) {
+
+    public CardDataViewHolder(@NonNull View itemView) {
         super(itemView);
         textViewTitle = itemView.findViewById(R.id.textView_title);
         textViewDescription = itemView.findViewById(R.id.textView_description);
@@ -56,26 +56,26 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
         checkFavorite = itemView.findViewById(R.id.imageView_favorite);
 
         buttonEdit.setOnClickListener(v -> {
-            if(listener != null){
-                listener.onEdit();
+            if (listener != null) {
+                listener.onEdit(dataSetNoteModel, getAdapterPosition());
             }
         });
 
         buttonDelete.setOnClickListener(v -> {
-            if(listener != null){
-                listener.onDelete();
+            if (listener != null) {
+                listener.onDelete(dataSetNoteModel);
             }
         });
 
         cardView.setOnClickListener(v -> {
-            if(listener != null){
-                listener.onClick();
+            if (listener != null) {
+                listener.onClick(dataSetNoteModel);
             }
         });
 
         checkFavorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(listener != null){
-                listener.onFavorite(isChecked);
+            if (listener != null) {
+                listener.onFavorite(dataSetNoteModel, isChecked);
             }
         });
 
@@ -121,65 +121,65 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setLineData(List<EntryNote> incomesData) {
-
-        List<Entry> linearEntryList = new ArrayList<>();
-
-        for (int index = 0; index < incomesData.size(); index++) {
-            EntryNote entryNote = incomesData.get(index);
-            linearEntryList.add(new Entry(index, entryNote.getValue()));
-        }
-
-
-        lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                if(incomesData.isEmpty()){
-                    return super.getAxisLabel(value, axis);
-                } else {
-                    return CalendarUtils.timestampToCalendarString(
-                            incomesData.get((int) value).getTimestamp(),
-                            CalendarUtils.HEADER_FORMAT
-                    );
-                }
-
+        if (incomesData != null) {
+            List<Entry> linearEntryList = new ArrayList<>();
+            for (int index = 0; index < incomesData.size(); index++) {
+                EntryNote entryNote = incomesData.get(index);
+                linearEntryList.add(new Entry(index, entryNote.getValue()));
             }
-        });
 
-        LineDataSet set1;
+            lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getAxisLabel(float value, AxisBase axis) {
+                    if (incomesData.isEmpty()) {
+                        return super.getAxisLabel(value, axis);
+                    } else {
+                        return CalendarUtils.timestampToCalendarString(
+                                incomesData.get((int) value).getTimestamp(),
+                                CalendarUtils.HEADER_FORMAT
+                        );
+                    }
 
-        if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
-            set1.setValues(linearEntryList);
-            lineChart.getData().notifyDataChanged();
-            lineChart.notifyDataSetChanged();
-        } else {
-            set1 = new LineDataSet(linearEntryList, "DataSet 1");
+                }
+            });
 
-            set1.setDrawIcons(false);
-            set1.setColor(ContextCompat.getColor(itemView.getContext(), R.color.clear_color));
-            set1.setCircleColor(Color.WHITE);
-            set1.setLineWidth(3f);
-            set1.setCircleRadius(6f);
-            set1.setCircleHoleRadius(4f);
-            set1.setDrawCircleHole(true);
-            set1.setCircleHoleColor(Color.BLACK);
-            set1.setDrawValues(false);
-            set1.setValueTextSize(9f);
-            set1.setDrawFilled(false);
-            set1.setFormLineWidth(1f);
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            set1.setFormSize(15f);
+            LineDataSet set1;
 
-            set1.setFillColor(Color.BLACK);
+            if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0) {
+                set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
+                set1.setValues(linearEntryList);
+                lineChart.getData().notifyDataChanged();
+                lineChart.notifyDataSetChanged();
+            } else {
+                set1 = new LineDataSet(linearEntryList, "DataSet 1");
 
-            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1);
+                set1.setDrawIcons(false);
+                set1.setColor(ContextCompat.getColor(itemView.getContext(), R.color.clear_color));
+                set1.setCircleColor(Color.WHITE);
+                set1.setLineWidth(3f);
+                set1.setCircleRadius(6f);
+                set1.setCircleHoleRadius(4f);
+                set1.setDrawCircleHole(true);
+                set1.setCircleHoleColor(Color.BLACK);
+                set1.setDrawValues(false);
+                set1.setValueTextSize(9f);
+                set1.setDrawFilled(false);
+                set1.setFormLineWidth(1f);
+                set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                set1.setFormSize(15f);
 
-            lineChart.setData(new LineData(dataSets));
+                set1.setFillColor(Color.BLACK);
+
+                ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+                dataSets.add(set1);
+
+                lineChart.setData(new LineData(dataSets));
+            }
         }
     }
 
     public void bindData(DataSetNoteModel data) {
+        this.dataSetNoteModel = data;
         lineChart.clear();
         lineChart.invalidate();
         textViewTitle.setText(data.getTitle());
@@ -187,7 +187,7 @@ public class CardDataSetViewHolder extends RecyclerView.ViewHolder {
         setLineData(data.getEntryNoteList());
     }
 
-    public void bindListener(CardDataListener listener){
+    public void bindListener(CardDataListener listener) {
         this.listener = listener;
     }
 }

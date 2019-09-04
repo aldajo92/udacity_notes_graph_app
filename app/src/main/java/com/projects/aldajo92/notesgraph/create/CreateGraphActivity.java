@@ -14,14 +14,23 @@ import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 public class CreateGraphActivity extends AppCompatActivity {
+    public static int REQUEST_EDIT_GRAPH = 0x05;
     public static int REQUEST_CREATE_GRAPH = 0x17;
-    public static String EXTRA_MODEL_RESULT = "com.projects.aldajo92.extra_model_result";
+
+    public static String EXTRA_POSITION = "com.projects.aldajo92.extra_position";
+    public static String EXTRA_NOTE_MODEL = "com.projects.aldajo92.extra_model_result";
+    public static String EXTRA_REQUEST_CODE = "com.projects.aldajo92.extra_request_code";
 
     private EditText editTextTitle;
     private EditText editTextDescription;
     private EditText editTextUnits;
 
     private Button buttonCreate;
+
+    private DataSetNoteModel model;
+    private boolean isEditMode = false;
+    private int position = -1;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,11 +44,26 @@ public class CreateGraphActivity extends AppCompatActivity {
         buttonCreate = findViewById(R.id.button_create);
         buttonCreate.setOnClickListener(v -> validateInputData());
 
-        this.setTitle(R.string.title_create_graph);
-
+        setTitle(R.string.title_create_graph);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        Intent intent = getIntent();
+        if(intent.hasExtra(EXTRA_REQUEST_CODE) && intent.hasExtra(EXTRA_NOTE_MODEL)){
+            int requestCode = intent.getIntExtra(EXTRA_REQUEST_CODE, 0);
+            model = intent.getParcelableExtra(EXTRA_NOTE_MODEL);
+            position = intent.getIntExtra(EXTRA_POSITION, -1);
+            if(requestCode == REQUEST_EDIT_GRAPH){
+                editTextTitle.setText(model.getTitle());
+                editTextDescription.setText(model.getDescription());
+                editTextUnits.setText(model.getUnits());
+
+                buttonCreate.setText(R.string.text_update);
+
+                isEditMode = true;
+            }
         }
     }
 
@@ -48,11 +72,18 @@ public class CreateGraphActivity extends AppCompatActivity {
         String description = editTextDescription.getText().toString();
         String units = editTextUnits.getText().toString();
 
-        DataSetNoteModel model = new DataSetNoteModel(title, description, units, null);
+        if(isEditMode){
+            model.setTitle(title);
+            model.setDescription(description);
+            model.setUnits(units);
+        } else {
+            model = new DataSetNoteModel(title, description, units, null);
+        }
 
         if (!title.isEmpty()) {
             Intent intent = new Intent();
-            intent.putExtra(EXTRA_MODEL_RESULT, model);
+            intent.putExtra(EXTRA_NOTE_MODEL, model);
+            intent.putExtra(EXTRA_POSITION, position);
             setResult(RESULT_OK, intent);
             finish();
         } else {

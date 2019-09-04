@@ -1,11 +1,13 @@
 package com.projects.aldajo92.notesgraph.main.adapter;
 
+import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
+
 public interface CardDataListener {
-    void onDelete();
+    void onDelete(DataSetNoteModel dataSetNoteModel);
 
-    void onEdit();
+    void onEdit(DataSetNoteModel dataSetNoteModel, int position);
 
-    void onClick();
+    void onClick(DataSetNoteModel dataSetNoteModel);
 
-    void onFavorite(Boolean isChecked);
+    void onFavorite(DataSetNoteModel dataSetNoteModel, Boolean isChecked);
 }

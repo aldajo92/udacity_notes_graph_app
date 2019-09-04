@@ -1,6 +1,9 @@
 package com.projects.aldajo92.notesgraph.models;
 
-public class EntryNote {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class EntryNote implements Parcelable {
 
     private long timestamp;
 
@@ -16,6 +19,38 @@ public class EntryNote {
         this.description = description;
         this.urlPicture = urlPicture;
     }
+
+    protected EntryNote(Parcel in) {
+        timestamp = in.readLong();
+        value = in.readFloat();
+        description = in.readString();
+        urlPicture = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(timestamp);
+        dest.writeFloat(value);
+        dest.writeString(description);
+        dest.writeString(urlPicture);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<EntryNote> CREATOR = new Creator<EntryNote>() {
+        @Override
+        public EntryNote createFromParcel(Parcel in) {
+            return new EntryNote(in);
+        }
+
+        @Override
+        public EntryNote[] newArray(int size) {
+            return new EntryNote[size];
+        }
+    };
 
     public long getTimestamp() {
         return timestamp;

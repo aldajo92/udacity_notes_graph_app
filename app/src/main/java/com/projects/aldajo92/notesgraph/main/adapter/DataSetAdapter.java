@@ -11,7 +11,7 @@ import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 import java.util.List;
 
-public class DataSetAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> {
+public class DataSetAdapter extends RecyclerView.Adapter<CardDataViewHolder> {
 
     private List<DataSetNoteModel> dataSetNoteModelList;
 
@@ -35,15 +35,20 @@ public class DataSetAdapter extends RecyclerView.Adapter<CardDataSetViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void updateItem(int position, DataSetNoteModel model) {
+        dataSetNoteModelList.set(position, model);
+        notifyItemChanged(position);
+    }
+
     @NonNull
     @Override
-    public CardDataSetViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CardDataViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_card_with_options, viewGroup, false);
-        return new CardDataSetViewHolder(view);
+        return new CardDataViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardDataSetViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull CardDataViewHolder viewHolder, int i) {
         viewHolder.bindData(dataSetNoteModelList.get(i));
         viewHolder.bindListener(cardDataListener);
     }

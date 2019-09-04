@@ -15,6 +15,10 @@
     <string name="text_description">Description</string>
     <string name="text_description_hint">Add your description</string>
     <string name="check_input_data">Please fill required fields.</string>
+    <string name="text_units">Units</string>
+    <string name="text_units_hint">Add units for your data</string>
+    <string name="text_create">Create</string>
+    <string name="text_update">Update</string>
 
     <string name="title_add">Add a graph</string>
     <string name="title_about">About</string>
