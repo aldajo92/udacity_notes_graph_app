@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataSetAdapter extends RecyclerView.Adapter<CardDataViewHolder> {
@@ -22,7 +23,7 @@ public class DataSetAdapter extends RecyclerView.Adapter<CardDataViewHolder> {
     }
 
     public DataSetAdapter(List<DataSetNoteModel> dataSetNoteModelList, CardDataListener cardDataListener) {
-        this.dataSetNoteModelList = dataSetNoteModelList;
+        this.dataSetNoteModelList = (dataSetNoteModelList != null) ?  dataSetNoteModelList : new ArrayList<>();
         this.cardDataListener = cardDataListener;
     }
 
@@ -35,9 +36,19 @@ public class DataSetAdapter extends RecyclerView.Adapter<CardDataViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void addItem(DataSetNoteModel model) {
+        dataSetNoteModelList.add(0, model);
+        notifyItemInserted(0);
+    }
+
     public void updateItem(int position, DataSetNoteModel model) {
         dataSetNoteModelList.set(position, model);
         notifyItemChanged(position);
+    }
+
+    public void deleteItem(int position, DataSetNoteModel model) {
+        dataSetNoteModelList.remove(position);
+        notifyItemRemoved(position);
     }
 
     @NonNull
@@ -57,4 +68,5 @@ public class DataSetAdapter extends RecyclerView.Adapter<CardDataViewHolder> {
     public int getItemCount() {
         return dataSetNoteModelList.size();
     }
+
 }

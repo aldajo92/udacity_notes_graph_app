@@ -7,6 +7,7 @@ import java.util.List;
 
 public class DataSetNoteModel implements Parcelable {
 
+    private String dateCreation;
     private String title;
     private String description;
     private String units;

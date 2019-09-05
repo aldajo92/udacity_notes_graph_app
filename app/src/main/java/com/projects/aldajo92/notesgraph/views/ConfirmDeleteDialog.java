@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.projects.aldajo92.notesgraph.R;
+import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 public class ConfirmDeleteDialog extends DialogFragment {
 
@@ -19,6 +20,10 @@ public class ConfirmDeleteDialog extends DialogFragment {
     private Button buttonCancel;
 
     private DeleteDialogCallback callback;
+
+    private DataSetNoteModel dataSetNoteModel;
+
+    private int position = -1;
 
     @NonNull
     @Override
@@ -51,7 +56,7 @@ public class ConfirmDeleteDialog extends DialogFragment {
         buttonContinue.setOnClickListener(v -> {
             dismiss();
             if (callback != null) {
-                callback.onConfirm();
+                callback.onConfirm(dataSetNoteModel, position);
             }
         });
     }
@@ -60,14 +65,24 @@ public class ConfirmDeleteDialog extends DialogFragment {
         this.callback = callback;
     }
 
-    public static ConfirmDeleteDialog createInstance(DeleteDialogCallback callback) {
+    public void setDataSetNoteModel(DataSetNoteModel dataSetNoteModel) {
+        this.dataSetNoteModel = dataSetNoteModel;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public static ConfirmDeleteDialog createInstance(DataSetNoteModel noteModel, int position, DeleteDialogCallback callback) {
         ConfirmDeleteDialog dialog = new ConfirmDeleteDialog();
+        dialog.setDataSetNoteModel(noteModel);
+        dialog.setPosition(position);
         dialog.setCallback(callback);
         return dialog;
     }
 
     public interface DeleteDialogCallback {
-        void onConfirm();
+        void onConfirm(DataSetNoteModel model, int position);
     }
 
 }

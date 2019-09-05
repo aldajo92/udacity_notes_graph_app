@@ -154,6 +154,19 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_add:
+                openCreateGraph();
+                break;
+            case R.id.action_about:
+                showToast("about");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         getSupportFragmentManager().beginTransaction().remove(favoritesFragment).commit();
         getSupportFragmentManager().beginTransaction().remove(dashBoardFragment).commit();
@@ -170,23 +183,39 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_EDIT_GRAPH) {
-            if (resultCode == RESULT_OK) {
-                if (data != null) {
-                    DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
+            if (data != null) {
+                DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
+                if (resultCode == RESULT_OK) {
                     int position = data.getIntExtra(EXTRA_POSITION, -1);
                     fragmentActive.updateData(model, position);
+                }
+            }
+        } else if (requestCode == REQUEST_CREATE_GRAPH) {
+            if (data != null) {
+                DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
+                if (resultCode == RESULT_OK) {
+                    insertItem(model);
                 }
             }
         }
     }
 
-    private void deleteItem() {
+    private void insertItem(DataSetNoteModel model) {
+        fragmentActive.addItem(model);
+    }
 
+    private void deleteItem(DataSetNoteModel model, int position) {
+        fragmentActive.deleteItem(model, position);
     }
 
     @Override
-    public void onDelete(DataSetNoteModel dataSetNoteModel) {
-        ConfirmDeleteDialog dialog = ConfirmDeleteDialog.createInstance(() -> deleteItem());
+    public void onDelete(DataSetNoteModel dataSetNoteModel, int position) {
+        ConfirmDeleteDialog dialog =
+                ConfirmDeleteDialog.createInstance(
+                        dataSetNoteModel,
+                        position,
+                        this::deleteItem
+                );
         dialog.show(getSupportFragmentManager(), "name");
     }
 
@@ -208,6 +237,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onFavorite(DataSetNoteModel dataSetNoteModel, Boolean isChecked) {
-        // TODO: Add to favorites
+        Toast.makeText(
+                this,
+                dataSetNoteModel.getTitle().concat(" " + isChecked),
+                Toast.LENGTH_SHORT
+        ).show();
+    }
+
+    public void showToast(String text){
+        Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
     }
 }

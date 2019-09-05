@@ -66,4 +66,13 @@ public class DashBoardFragment extends Fragment {
             adapter.updateItem(position, model);
         }
     }
+
+    public void addItem(DataSetNoteModel model) {
+        adapter.addItem(model);
+        recyclerView.smoothScrollToPosition(0);
+    }
+
+    public void deleteItem(DataSetNoteModel model, int position) {
+        adapter.deleteItem(position, model);
+    }
 }

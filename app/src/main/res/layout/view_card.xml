@@ -13,14 +13,16 @@
         android:padding="@dimen/font_normal">
 
         <!--TODO: Set content description-->
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineaChart"
+        <CheckBox
+            android:id="@+id/imageView_favorite"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_graph_home"
-            android:layout_marginTop="@dimen/spacing_large"
-            app:layout_constraintEnd_toStartOf="@id/imageView_vertical_dots"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_title" />
+            android:layout_height="0dp"
+            android:button="@drawable/background_favorite"
+            android:checked="false"
+            app:layout_constraintBottom_toBottomOf="@id/textView_title"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textView_title" />
 
         <ImageView
             android:id="@+id/imageView_vertical_dots"
@@ -31,17 +33,6 @@
             app:layout_constraintStart_toEndOf="@id/lineaChart"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_more_vertical" />
-
-        <CheckBox
-            android:id="@+id/imageView_favorite"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="W,1:1"
-            app:layout_constraintTop_toTopOf="@id/textView_title"
-            app:layout_constraintBottom_toBottomOf="@id/textView_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:checked="false"
-            android:button="@drawable/background_favorite" />
 
         <TextView
             android:id="@+id/textView_title"
@@ -56,16 +47,36 @@
             tools:text="Title" />
 
         <TextView
+            android:id="@+id/textView_description_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_description"
+            android:textSize="@dimen/font_small"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/spacing_large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lineaChart" />
+
+        <TextView
             android:id="@+id/textView_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
             android:ellipsize="end"
+            android:textSize="@dimen/font_small"
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lineaChart"
+            app:layout_constraintTop_toBottomOf="@id/textView_description_title"
             tools:text="Description description description description description description description description description description description description description description description description description description description description" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineaChart"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_graph_home"
+            app:layout_constraintEnd_toStartOf="@id/imageView_vertical_dots"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_title" />
 
     </android.support.constraint.ConstraintLayout>
 

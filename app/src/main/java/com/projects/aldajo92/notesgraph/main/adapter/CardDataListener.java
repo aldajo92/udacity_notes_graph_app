@@ -3,7 +3,7 @@ package com.projects.aldajo92.notesgraph.main.adapter;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 public interface CardDataListener {
-    void onDelete(DataSetNoteModel dataSetNoteModel);
+    void onDelete(DataSetNoteModel dataSetNoteModel, int position);
 
     void onEdit(DataSetNoteModel dataSetNoteModel, int position);
 

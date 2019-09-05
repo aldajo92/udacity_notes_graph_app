@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntriesAdapter extends RecyclerView.Adapter<EntryViewHolder> {
@@ -22,7 +23,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntryViewHolder> {
     }
 
     public EntriesAdapter(List<EntryNoteModel> entryNoteModelList, EntryDataListener entryDataListener) {
-        this.entryNoteModelList = entryNoteModelList;
+        this.entryNoteModelList = (entryNoteModelList != null) ?  entryNoteModelList : new ArrayList<>();
         this.entryDataListener = entryDataListener;
     }
 

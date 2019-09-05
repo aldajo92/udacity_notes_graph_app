@@ -63,7 +63,7 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
 
         buttonDelete.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onDelete(dataSetNoteModel);
+                listener.onDelete(dataSetNoteModel, getAdapterPosition());
             }
         });
 

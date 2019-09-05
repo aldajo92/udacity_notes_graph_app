@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
+import java.util.ArrayList;
+
 public class EditCreateGraphActivity extends AppCompatActivity {
     public static int REQUEST_EDIT_GRAPH = 0x05;
     public static int REQUEST_CREATE_GRAPH = 0x17;
@@ -79,7 +81,7 @@ public class EditCreateGraphActivity extends AppCompatActivity {
             model.setDescription(description);
             model.setUnits(units);
         } else {
-            model = new DataSetNoteModel(title, description, units, null);
+            model = new DataSetNoteModel(title, description, units, new ArrayList<>());
         }
 
         if (!title.isEmpty()) {

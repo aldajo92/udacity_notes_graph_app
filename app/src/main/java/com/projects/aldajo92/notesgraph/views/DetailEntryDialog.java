@@ -86,8 +86,8 @@ public class DetailEntryDialog extends DialogFragment {
     public static DetailEntryDialog createInstance(EntryNoteModel noteModel, int position, EditEntryCallback callback) {
         DetailEntryDialog dialog = new DetailEntryDialog();
         dialog.setNoteModel(noteModel);
-        dialog.setCallback(callback);
         dialog.setPosition(position);
+        dialog.setCallback(callback);
         return dialog;
     }
 
