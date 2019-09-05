@@ -44,7 +44,6 @@ public class EditCreateGraphActivity extends AppCompatActivity {
         buttonCreate = findViewById(R.id.button_create);
         buttonCreate.setOnClickListener(v -> validateInputData());
 
-        setTitle(R.string.title_create_graph);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
@@ -64,6 +63,9 @@ public class EditCreateGraphActivity extends AppCompatActivity {
 
                 isEditMode = true;
             }
+            setTitle(R.string.title_edit_graph_title);
+        } else {
+            setTitle(R.string.title_create_graph_title);
         }
     }
 

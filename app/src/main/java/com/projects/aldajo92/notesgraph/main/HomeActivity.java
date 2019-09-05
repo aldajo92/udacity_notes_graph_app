@@ -64,9 +64,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         getSupportFragmentManager().beginTransaction().add(R.id.container, favoritesFragment, "2").hide(favoritesFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.container, dashBoardFragment, "1").commit();
 
-        fabButton.setOnClickListener(v -> {
-            openCreateGraph();
-        });
+        fabButton.setOnClickListener(v -> openCreateGraph());
 
         List<EntryNoteModel> entryNoteModelList = new ArrayList<>();
         entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 12f, "description", ""));
@@ -182,9 +180,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+    private void deleteItem() {
+
+    }
+
     @Override
     public void onDelete(DataSetNoteModel dataSetNoteModel) {
-        ConfirmDeleteDialog dialog = ConfirmDeleteDialog.createInstance(() -> Toast.makeText(this, "Delete", Toast.LENGTH_LONG).show());
+        ConfirmDeleteDialog dialog = ConfirmDeleteDialog.createInstance(() -> deleteItem());
         dialog.show(getSupportFragmentManager(), "name");
     }
 
@@ -206,6 +208,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onFavorite(DataSetNoteModel dataSetNoteModel, Boolean isChecked) {
-        Toast.makeText(this, "Favorite: " + isChecked, Toast.LENGTH_LONG).show();
+        // TODO: Add to favorites
     }
 }

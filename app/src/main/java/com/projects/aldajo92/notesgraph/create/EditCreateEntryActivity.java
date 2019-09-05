@@ -6,28 +6,36 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.projects.aldajo92.notesgraph.R;
-import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
+import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
+
+import java.util.Calendar;
 
 public class EditCreateEntryActivity extends AppCompatActivity {
-    public static int REQUEST_EDIT_GRAPH = 0x05;
-    public static int REQUEST_CREATE_GRAPH = 0x17;
+    public static int REQUEST_EDIT_ENTRY = 0x03;
+    public static int REQUEST_CREATE_ENTRY = 0x7;
 
     public static String EXTRA_POSITION = "com.projects.aldajo92.extra_position";
-    public static String EXTRA_NOTE_MODEL = "com.projects.aldajo92.extra_model_result";
+    public static String EXTRA_ENTRY_MODEL = "com.projects.aldajo92.extra_entry_model";
     public static String EXTRA_REQUEST_CODE = "com.projects.aldajo92.extra_request_code";
 
-    private EditText editTextTitle;
+    public static int RESULT_DELETE_ITEM = 0x66;
+
+    private TextView textViewDate;
     private EditText editTextDescription;
-    private EditText editTextUnits;
+    private EditText editTextValue;
+    private ImageButton imageButtonDelete;
 
     private Button buttonCreate;
 
-    private DataSetNoteModel model;
+    private EntryNoteModel model;
     private boolean isEditMode = false;
     private int position = -1;
 
@@ -35,54 +43,71 @@ public class EditCreateEntryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_graph);
+        setContentView(R.layout.activity_create_entry);
 
-        editTextTitle = findViewById(R.id.editText_title);
+        editTextValue = findViewById(R.id.editText_value);
+        textViewDate = findViewById(R.id.textView_current_date);
         editTextDescription = findViewById(R.id.editText_description);
-        editTextUnits = findViewById(R.id.editText_units);
+        imageButtonDelete = findViewById(R.id.imageButton_delete);
 
         buttonCreate = findViewById(R.id.button_create);
         buttonCreate.setOnClickListener(v -> validateInputData());
 
-        setTitle(R.string.title_create_graph);
+        imageButtonDelete.setOnClickListener(v -> deleteItem());
+
+        setTitle(R.string.title_create_entry);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         Intent intent = getIntent();
-        if(intent.hasExtra(EXTRA_REQUEST_CODE) && intent.hasExtra(EXTRA_NOTE_MODEL)){
+        if (intent.hasExtra(EXTRA_REQUEST_CODE) && intent.hasExtra(EXTRA_ENTRY_MODEL)) {
             int requestCode = intent.getIntExtra(EXTRA_REQUEST_CODE, 0);
-            model = intent.getParcelableExtra(EXTRA_NOTE_MODEL);
+            model = intent.getParcelableExtra(EXTRA_ENTRY_MODEL);
             position = intent.getIntExtra(EXTRA_POSITION, -1);
-            if(requestCode == REQUEST_EDIT_GRAPH){
-                editTextTitle.setText(model.getTitle());
+            if (requestCode == REQUEST_EDIT_ENTRY) {
+                textViewDate.setText("" + model.getTimestamp());
+                editTextValue.setText("" + model.getValue());
                 editTextDescription.setText(model.getDescription());
-                editTextUnits.setText(model.getUnits());
 
                 buttonCreate.setText(R.string.text_update);
+                imageButtonDelete.setVisibility(View.VISIBLE);
 
                 isEditMode = true;
             }
+        } else {
+            long time = Calendar.getInstance().getTimeInMillis();
+            textViewDate.setText("" + time);
         }
     }
 
+    private void deleteItem() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_ENTRY_MODEL, model);
+        intent.putExtra(EXTRA_POSITION, position);
+        setResult(RESULT_DELETE_ITEM, intent);
+        finish();
+    }
+
     private void validateInputData() {
-        String title = editTextTitle.getText().toString();
-        String description = editTextDescription.getText().toString();
-        String units = editTextUnits.getText().toString();
+        String textValue = editTextValue.getText().toString();
+        if (!textValue.isEmpty()) {
 
-        if(isEditMode){
-            model.setTitle(title);
-            model.setDescription(description);
-            model.setUnits(units);
-        } else {
-            model = new DataSetNoteModel(title, description, units, null);
-        }
+            long date = Long.parseLong(textViewDate.getText().toString());
+            int value = Integer.parseInt(textValue);
+            String description = editTextDescription.getText().toString();
 
-        if (!title.isEmpty()) {
+            if (isEditMode) {
+                model.setTimestamp(date);
+                model.setValue(value);
+                model.setDescription(description);
+            } else {
+                model = new EntryNoteModel(date, value, description, null);
+            }
+
             Intent intent = new Intent();
-            intent.putExtra(EXTRA_NOTE_MODEL, model);
+            intent.putExtra(EXTRA_ENTRY_MODEL, model);
             intent.putExtra(EXTRA_POSITION, position);
             setResult(RESULT_OK, intent);
             finish();

@@ -35,9 +35,19 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void addItem(EntryNoteModel model) {
+        entryNoteModelList.add(model);
+        notifyItemInserted(entryNoteModelList.size() - 1);
+    }
+
     public void updateItem(int position, EntryNoteModel model) {
         entryNoteModelList.set(position, model);
         notifyItemChanged(position);
+    }
+
+    public void deleteItem(int position, EntryNoteModel model) {
+        entryNoteModelList.remove(position);
+        notifyItemRemoved(position);
     }
 
     @NonNull
@@ -57,4 +67,5 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntryViewHolder> {
     public int getItemCount() {
         return entryNoteModelList.size();
     }
+
 }

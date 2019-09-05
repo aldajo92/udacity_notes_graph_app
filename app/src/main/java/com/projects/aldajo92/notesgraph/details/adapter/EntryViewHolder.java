@@ -29,6 +29,11 @@ public class EntryViewHolder extends RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.cardView);
 
         cardView.setElevation(0);
+        cardView.setOnClickListener(v -> {
+            if(listener != null){
+                listener.onClick(entryNoteModel, getAdapterPosition());
+            }
+        });
     }
 
     public void bindData(EntryNoteModel data) {

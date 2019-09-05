@@ -10,7 +10,7 @@ import com.projects.aldajo92.notesgraph.main.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static int SPLASH_DURATION = 3000;
+    public static int SPLASH_DURATION = 1000;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

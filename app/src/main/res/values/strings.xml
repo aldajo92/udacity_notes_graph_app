@@ -8,7 +8,8 @@
     <string name="text_delete_item">Delete all entries</string>
     <string name="text_ask_delete">Are you sure want to continue?</string>
 
-    <string name="title_create_graph">Create Graph</string>
+    <string name="title_create_graph_title">Create Graph</string>
+    <string name="title_edit_graph_title">Edit Graph</string>
 
     <string name="text_title">Title (required)</string>
     <string name="text_title_hint">Add a title for your graph</string>
@@ -22,7 +23,13 @@
 
     <string name="title_add">Add a graph</string>
     <string name="title_about">About</string>
+    <string name="text_edit">Edit</string>
 
     <string name="title_add_entry">Add a new entry</string>
     <string name="title_edit_graph">Edit</string>
+    <string name="text_date">Date</string>
+    <string name="text_value">Value (required)</string>
+    <string name="text_add_numeric_value">Add a numeric value</string>
+    <string name="title_create_entry">Create Entry</string>
+    <string name="text_position">Position:</string>
 </resources>
