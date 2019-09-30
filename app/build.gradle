@@ -31,7 +31,7 @@ dependencies {
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.firebaseui:firebase-ui-auth:5.1.0'
