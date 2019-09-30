@@ -1,22 +1,30 @@
-package com.projects.aldajo92.notesgraph.main;
+package com.projects.aldajo92.notesgraph.home;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.projects.aldajo92.notesgraph.R;
+import com.projects.aldajo92.notesgraph.SplashActivity;
 import com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity;
 import com.projects.aldajo92.notesgraph.details.DetailGraphActivity;
-import com.projects.aldajo92.notesgraph.main.adapter.CardDataListener;
-import com.projects.aldajo92.notesgraph.main.dashboard.DashBoardFragment;
+import com.projects.aldajo92.notesgraph.home.adapter.CardDataListener;
+import com.projects.aldajo92.notesgraph.home.dashboard.DashBoardFragment;
+import com.projects.aldajo92.notesgraph.home.settings.SettingsFragment;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
@@ -36,12 +44,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     private DashBoardFragment dashBoardFragment;
     private DashBoardFragment favoritesFragment;
+    private SettingsFragment settingsFragment;
 
     private BottomNavigationView bottomNavigationView;
 
     private FloatingActionButton fabButton;
 
-    private DashBoardFragment fragmentActive;
+    private Fragment fragmentActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         favoritesFragment = DashBoardFragment.createInstance();
         favoritesFragment.setCardDataListener(this);
 
+        settingsFragment = SettingsFragment.createInstance(this::signOut);
+
         fragmentActive = dashBoardFragment;
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -61,6 +72,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         fabButton = findViewById(R.id.fabButton);
 
+        getSupportFragmentManager().beginTransaction().add(R.id.container, settingsFragment, "3").hide(settingsFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.container, favoritesFragment, "2").hide(favoritesFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.container, dashBoardFragment, "1").commit();
 
@@ -149,13 +161,18 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(favoritesFragment).commit();
                 fragmentActive = favoritesFragment;
                 return true;
+
+            case R.id.action_settings:
+                getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(settingsFragment).commit();
+                fragmentActive = settingsFragment;
+                return true;
         }
         return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_add:
                 openCreateGraph();
                 break;
@@ -187,7 +204,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
                 if (resultCode == RESULT_OK) {
                     int position = data.getIntExtra(EXTRA_POSITION, -1);
-                    fragmentActive.updateData(model, position);
+                    if (fragmentActive instanceof DashBoardFragment) {
+                        ((DashBoardFragment) fragmentActive).updateData(model, position);
+                    }
                 }
             }
         } else if (requestCode == REQUEST_CREATE_GRAPH) {
@@ -201,11 +220,15 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void insertItem(DataSetNoteModel model) {
-        fragmentActive.addItem(model);
+        if (fragmentActive instanceof DashBoardFragment) {
+            ((DashBoardFragment) fragmentActive).addItem(model);
+        }
     }
 
     private void deleteItem(DataSetNoteModel model, int position) {
-        fragmentActive.deleteItem(model, position);
+        if (fragmentActive instanceof DashBoardFragment) {
+            ((DashBoardFragment) fragmentActive).deleteItem(model, position);
+        }
     }
 
     @Override
@@ -244,7 +267,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         ).show();
     }
 
-    public void showToast(String text){
-        Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
+    public void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    public void signOut(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, SplashActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

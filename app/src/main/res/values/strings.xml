@@ -23,6 +23,7 @@
 
     <string name="title_add">Add a graph</string>
     <string name="title_about">About</string>
+    <string name="title_my_account">My account</string>
     <string name="text_edit">Edit</string>
 
     <string name="title_add_entry">Add a new entry</string>
@@ -32,4 +33,5 @@
     <string name="text_add_numeric_value">Add a numeric value</string>
     <string name="title_create_entry">Create Entry</string>
     <string name="text_position">Position:</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

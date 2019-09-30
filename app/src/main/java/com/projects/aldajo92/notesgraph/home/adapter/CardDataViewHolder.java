@@ -1,4 +1,4 @@
-package com.projects.aldajo92.notesgraph.main.adapter;
+package com.projects.aldajo92.notesgraph.home.adapter;
 
 import android.graphics.Color;
 import androidx.annotation.NonNull;

@@ -21,7 +21,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.projects.aldajo92.notesgraph.main.HomeActivity;
+import com.projects.aldajo92.notesgraph.home.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 0X17;
 
     private FirebaseAuth firebaseAuth;
-    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInClient googleSignInClient;
 
     private SignInButton button;
 
@@ -47,7 +47,7 @@ public class SplashActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
 
         button.setOnClickListener(v -> signIn());
 
@@ -68,8 +68,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        button.setVisibility(View.GONE);
     }
 
     @Override
@@ -79,14 +80,14 @@ public class SplashActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                fireBaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 Log.w("ADJGF", "Google sign in failed", e);
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount signInAccount) {
+    private void fireBaseAuthWithGoogle(GoogleSignInAccount signInAccount) {
         AuthCredential credential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
@@ -96,6 +97,7 @@ public class SplashActivity extends AppCompatActivity {
                         updateUI(currentUser);
                     } else {
                         Snackbar.make(findViewById(R.id.layout_splash), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                        button.setVisibility(View.VISIBLE);
                     }
                 });
     }

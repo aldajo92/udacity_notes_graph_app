@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_favorite"
         android:title="@string/title_favorites"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_my_account"
+        app:showAsAction="ifRoom"/>
 </menu>

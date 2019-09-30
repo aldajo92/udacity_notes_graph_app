@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".main.HomeActivity">
+        <activity android:name=".home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -28,7 +28,6 @@
         <activity android:name=".details.DetailGraphActivity" />
         <activity android:name=".create.EditCreateGraphActivity" />
         <activity android:name=".create.EditCreateEntryActivity" />
-        <activity android:name=".login.LoginActivity" />
 
     </application>
 

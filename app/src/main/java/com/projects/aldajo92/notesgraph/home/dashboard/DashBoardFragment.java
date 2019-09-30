@@ -1,4 +1,4 @@
-package com.projects.aldajo92.notesgraph.main.dashboard;
+package com.projects.aldajo92.notesgraph.home.dashboard;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.projects.aldajo92.notesgraph.R;
-import com.projects.aldajo92.notesgraph.main.adapter.CardDataListener;
-import com.projects.aldajo92.notesgraph.main.adapter.DataSetAdapter;
+import com.projects.aldajo92.notesgraph.home.adapter.CardDataListener;
+import com.projects.aldajo92.notesgraph.home.adapter.DataSetAdapter;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 import java.util.ArrayList;
