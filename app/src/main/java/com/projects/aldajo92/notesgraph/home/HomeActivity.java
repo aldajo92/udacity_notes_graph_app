@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,8 @@ import com.projects.aldajo92.notesgraph.home.dashboard.DashBoardFragment;
 import com.projects.aldajo92.notesgraph.home.settings.SettingsFragment;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
+import com.projects.aldajo92.notesgraph.models.UserModel;
+import com.projects.aldajo92.notesgraph.utils.Constants;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
 
 import java.util.ArrayList;
@@ -52,10 +55,16 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     private Fragment fragmentActive;
 
+    private UserModel userModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        if (getIntent().hasExtra(Constants.USER_EXTRA)) {
+            userModel = getIntent().getParcelableExtra(Constants.USER_EXTRA);
+        }
 
         dashBoardFragment = DashBoardFragment.createInstance();
         dashBoardFragment.setCardDataListener(this);
@@ -63,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         favoritesFragment = DashBoardFragment.createInstance();
         favoritesFragment.setCardDataListener(this);
 
-        settingsFragment = SettingsFragment.createInstance(this::signOut);
+        settingsFragment = SettingsFragment.createInstance(userModel, this::signOut);
 
         fragmentActive = dashBoardFragment;
 
@@ -155,19 +164,30 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.action_dashboard:
                 getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(dashBoardFragment).commit();
                 fragmentActive = dashBoardFragment;
+                hideFabButton(false);
                 return true;
 
             case R.id.action_favorites:
                 getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(favoritesFragment).commit();
                 fragmentActive = favoritesFragment;
+                hideFabButton(false);
                 return true;
 
             case R.id.action_settings:
                 getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(settingsFragment).commit();
                 fragmentActive = settingsFragment;
+                hideFabButton(true);
                 return true;
         }
         return false;
+    }
+
+    public void hideFabButton(boolean hide) {
+        if (hide) {
+            fabButton.hide();
+        } else {
+            fabButton.show();
+        }
     }
 
     @Override
@@ -271,7 +291,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    public void signOut(){
+    public void signOut() {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);

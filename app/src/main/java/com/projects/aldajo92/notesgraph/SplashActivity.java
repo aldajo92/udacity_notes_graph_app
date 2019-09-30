@@ -22,11 +22,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.projects.aldajo92.notesgraph.home.HomeActivity;
+import com.projects.aldajo92.notesgraph.models.UserModel;
+
+import static com.projects.aldajo92.notesgraph.utils.Constants.USER_EXTRA;
 
 public class SplashActivity extends AppCompatActivity {
 
     public static int SPLASH_DURATION = 1000;
-
     private static final int RC_SIGN_IN = 0X17;
 
     private FirebaseAuth firebaseAuth;
@@ -61,8 +63,9 @@ public class SplashActivity extends AppCompatActivity {
         updateUI(currentUser);
     }
 
-    private void launchMainActivity(){
+    private void launchMainActivity(FirebaseUser account){
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra(USER_EXTRA, new UserModel(account.getDisplayName(), account.getEmail()));
         startActivity(intent);
         finish();
     }
@@ -83,6 +86,7 @@ public class SplashActivity extends AppCompatActivity {
                 fireBaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 Log.w("ADJGF", "Google sign in failed", e);
+                button.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -104,7 +108,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void validateLogin(@Nullable FirebaseUser account){
         if (account != null) {
-            new Handler().postDelayed(() -> launchMainActivity(), SPLASH_DURATION);
+            new Handler().postDelayed(() -> launchMainActivity(account), SPLASH_DURATION);
         }
     }
 

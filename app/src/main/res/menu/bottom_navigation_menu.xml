@@ -17,6 +17,6 @@
         android:id="@+id/action_settings"
         android:enabled="true"
         android:icon="@drawable/ic_settings"
-        android:title="@string/title_my_account"
+        android:title="@string/title_settings"
         app:showAsAction="ifRoom"/>
 </menu>
