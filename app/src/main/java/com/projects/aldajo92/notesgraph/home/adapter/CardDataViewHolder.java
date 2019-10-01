@@ -75,7 +75,7 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
 
         checkFavorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (listener != null) {
-                listener.onFavorite(dataSetNoteModel, isChecked);
+                listener.onFavorite(dataSetNoteModel, getAdapterPosition(), isChecked);
             }
         });
 
@@ -184,6 +184,7 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
         lineChart.invalidate();
         textViewTitle.setText(data.getTitle());
         textViewDescription.setText(data.getDescription());
+        checkFavorite.setChecked(data.getIsFavorite());
         setLineData(data.getEntryNoteModelList());
     }
 

@@ -7,13 +7,31 @@ import java.util.List;
 
 public class DataSetNoteModel implements Parcelable {
 
-    private String dateCreation;
+    private String ID;
     private String title;
     private String description;
     private String units;
     private List<EntryNoteModel> entryNoteModelList;
+    private Boolean isFavorite = false;
+
+    public DataSetNoteModel() {
+        this.ID = "";
+        this.title = "";
+        this.description = "";
+        this.units = "";
+        this.isFavorite = false;
+    }
+
+    public DataSetNoteModel(String ID, String title, String description, String units, List<EntryNoteModel> entryNoteModelList) {
+        this.ID = ID;
+        this.title = title;
+        this.description = description;
+        this.units = units;
+        this.entryNoteModelList = entryNoteModelList;
+    }
 
     public DataSetNoteModel(String title, String description, String units, List<EntryNoteModel> entryNoteModelList) {
+        this.ID = "";
         this.title = title;
         this.description = description;
         this.units = units;
@@ -21,24 +39,30 @@ public class DataSetNoteModel implements Parcelable {
     }
 
     public DataSetNoteModel(String title, String description, List<EntryNoteModel> entryNoteModelList) {
+        this.ID = "";
         this.title = title;
         this.description = description;
         this.entryNoteModelList = entryNoteModelList;
     }
 
     protected DataSetNoteModel(Parcel in) {
+        ID = in.readString();
         title = in.readString();
         description = in.readString();
         units = in.readString();
         entryNoteModelList = in.createTypedArrayList(EntryNoteModel.CREATOR);
+        byte tmpIsFavorite = in.readByte();
+        isFavorite = tmpIsFavorite == 0 ? null : tmpIsFavorite == 1;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(ID);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(units);
         dest.writeTypedList(entryNoteModelList);
+        dest.writeByte((byte) (isFavorite == null ? 0 : isFavorite ? 1 : 2));
     }
 
     @Override
@@ -57,6 +81,14 @@ public class DataSetNoteModel implements Parcelable {
             return new DataSetNoteModel[size];
         }
     };
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     public String getTitle() {
         return title;
@@ -88,5 +120,13 @@ public class DataSetNoteModel implements Parcelable {
 
     public void setEntryNoteModelList(List<EntryNoteModel> entryNoteModelList) {
         this.entryNoteModelList = entryNoteModelList;
+    }
+
+    public Boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
     }
 }

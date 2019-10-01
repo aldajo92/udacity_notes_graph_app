@@ -3,21 +3,17 @@ package com.projects.aldajo92.notesgraph.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.SplashActivity;
@@ -27,13 +23,11 @@ import com.projects.aldajo92.notesgraph.home.adapter.CardDataListener;
 import com.projects.aldajo92.notesgraph.home.dashboard.DashBoardFragment;
 import com.projects.aldajo92.notesgraph.home.settings.SettingsFragment;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
-import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
 import com.projects.aldajo92.notesgraph.models.UserModel;
 import com.projects.aldajo92.notesgraph.utils.Constants;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_NOTE_MODEL;
@@ -45,27 +39,51 @@ import static com.projects.aldajo92.notesgraph.details.DetailGraphActivity.EXTRA
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CardDataListener {
 
-    private DashBoardFragment dashBoardFragment;
-    private DashBoardFragment favoritesFragment;
+    private DashBoardFragment dashBoardFragment, favoritesFragment;
     private SettingsFragment settingsFragment;
 
     private BottomNavigationView bottomNavigationView;
-
     private FloatingActionButton fabButton;
 
     private Fragment fragmentActive;
 
     private UserModel userModel;
 
+    private HomeViewModel homeViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        homeViewModel = new HomeViewModel();
+
         if (getIntent().hasExtra(Constants.USER_EXTRA)) {
             userModel = getIntent().getParcelableExtra(Constants.USER_EXTRA);
         }
 
+        setupFragments();
+        setupViews();
+
+        homeViewModel.getLiveDataGraphs().observe(this, dataSetNoteModels -> {
+            dashBoardFragment.setDataSetNoteModelList(dataSetNoteModels);
+
+            List<DataSetNoteModel> favoritesList = new ArrayList<>();
+            for(DataSetNoteModel noteModel: dataSetNoteModels){
+                if(noteModel.getIsFavorite()){
+                    favoritesList.add(noteModel);
+                }
+            }
+
+            favoritesFragment.setDataSetNoteModelList(favoritesList);
+        });
+
+
+//        dashBoardFragment.setDataSetNoteModelList(list);
+//        favoritesFragment.setDataSetNoteModelList(list1);
+    }
+
+    private void setupFragments(){
         dashBoardFragment = DashBoardFragment.createInstance();
         dashBoardFragment.setCardDataListener(this);
 
@@ -76,118 +94,35 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         fragmentActive = dashBoardFragment;
 
+        getSupportFragmentManager().beginTransaction().add(R.id.container, settingsFragment, "3").hide(settingsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, favoritesFragment, "2").hide(favoritesFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, dashBoardFragment, "1").commit();
+    }
+
+    private void setupViews(){
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         fabButton = findViewById(R.id.fabButton);
-
-        getSupportFragmentManager().beginTransaction().add(R.id.container, settingsFragment, "3").hide(settingsFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.container, favoritesFragment, "2").hide(favoritesFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.container, dashBoardFragment, "1").commit();
-
         fabButton.setOnClickListener(v -> openCreateGraph());
-
-        List<EntryNoteModel> entryNoteModelList = new ArrayList<>();
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 12f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 14f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 15f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 16f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 17f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 18f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-        entryNoteModelList.add(new EntryNoteModel(new Date().getTime(), 20f, "description", ""));
-
-        List<DataSetNoteModel> list = new ArrayList<>();
-        list.add(new DataSetNoteModel("Title Favorite", "description", entryNoteModelList));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list.add(new DataSetNoteModel("Title Final", "description", new ArrayList<>()));
-        dashBoardFragment.setDataSetNoteModelList(list);
-
-
-        List<DataSetNoteModel> list1 = new ArrayList<>();
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        favoritesFragment.setDataSetNoteModelList(list1);
-    }
-
-    private void openCreateGraph() {
-        Intent intent = new Intent(this, EditCreateGraphActivity.class);
-        startActivityForResult(intent, REQUEST_CREATE_GRAPH);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_dashboard:
-                getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(dashBoardFragment).commit();
-                fragmentActive = dashBoardFragment;
-                hideFabButton(false);
+                showFragment(dashBoardFragment);
                 return true;
 
             case R.id.action_favorites:
-                getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(favoritesFragment).commit();
-                fragmentActive = favoritesFragment;
-                hideFabButton(false);
+                showFragment(favoritesFragment);
                 return true;
 
             case R.id.action_settings:
-                getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(settingsFragment).commit();
-                fragmentActive = settingsFragment;
-                hideFabButton(true);
+                showFragment(settingsFragment);
                 return true;
         }
         return false;
-    }
-
-    public void hideFabButton(boolean hide) {
-        if (hide) {
-            fabButton.hide();
-        } else {
-            fabButton.show();
-        }
     }
 
     @Override
@@ -224,31 +159,39 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
                 if (resultCode == RESULT_OK) {
                     int position = data.getIntExtra(EXTRA_POSITION, -1);
-                    if (fragmentActive instanceof DashBoardFragment) {
-                        ((DashBoardFragment) fragmentActive).updateData(model, position);
-                    }
+                    editItem(model, position);
                 }
             }
         } else if (requestCode == REQUEST_CREATE_GRAPH) {
             if (data != null) {
                 DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
                 if (resultCode == RESULT_OK) {
+                    bottomNavigationView.setSelectedItemId(R.id.action_dashboard);
                     insertItem(model);
                 }
             }
         }
     }
 
+    private void editItem(DataSetNoteModel model, int position) {
+        homeViewModel.editItem(model, position);
+//        if (fragmentActive instanceof DashBoardFragment) {
+//            ((DashBoardFragment) fragmentActive).updateData(model, position);
+//        }
+    }
+
     private void insertItem(DataSetNoteModel model) {
-        if (fragmentActive instanceof DashBoardFragment) {
-            ((DashBoardFragment) fragmentActive).addItem(model);
-        }
+        homeViewModel.addItem(model);
+//        if (fragmentActive instanceof DashBoardFragment) {
+//            ((DashBoardFragment) fragmentActive).addItem(model);
+//        }
     }
 
     private void deleteItem(DataSetNoteModel model, int position) {
-        if (fragmentActive instanceof DashBoardFragment) {
-            ((DashBoardFragment) fragmentActive).deleteItem(model, position);
-        }
+        homeViewModel.removeItem(position);
+//        if (fragmentActive instanceof DashBoardFragment) {
+//            ((DashBoardFragment) fragmentActive).deleteItem(model, position);
+//        }
     }
 
     @Override
@@ -279,22 +222,39 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-    public void onFavorite(DataSetNoteModel dataSetNoteModel, Boolean isChecked) {
-        Toast.makeText(
-                this,
-                dataSetNoteModel.getTitle().concat(" " + isChecked),
-                Toast.LENGTH_SHORT
-        ).show();
+    public void onFavorite(DataSetNoteModel model, int position, Boolean isChecked) {
+        model.setFavorite(isChecked);
+        homeViewModel.editItem(model, position);
     }
 
-    public void showToast(String text) {
+    private void showFragment(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().hide(fragmentActive).show(fragment).commit();
+        fragmentActive = fragment;
+        boolean showFabButton = fragment instanceof DashBoardFragment;
+        showFabButton(showFabButton);
+    }
+
+    private void openCreateGraph() {
+        Intent intent = new Intent(this, EditCreateGraphActivity.class);
+        startActivityForResult(intent, REQUEST_CREATE_GRAPH);
+    }
+
+    private void showToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    public void signOut() {
+    private void signOut() {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void showFabButton(boolean show) {
+        if (show) {
+            fabButton.show();
+        } else {
+            fabButton.hide();
+        }
     }
 }

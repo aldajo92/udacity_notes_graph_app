@@ -13,6 +13,10 @@ public class EntryNoteModel implements Parcelable {
 
     private String urlPicture;
 
+    public EntryNoteModel(){
+
+    }
+
     public EntryNoteModel(long timestamp, float value, String description, String urlPicture) {
         this.timestamp = timestamp;
         this.value = value;

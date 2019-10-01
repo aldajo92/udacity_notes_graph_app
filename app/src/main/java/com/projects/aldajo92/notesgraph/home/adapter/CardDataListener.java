@@ -9,5 +9,5 @@ public interface CardDataListener {
 
     void onClick(DataSetNoteModel dataSetNoteModel);
 
-    void onFavorite(DataSetNoteModel dataSetNoteModel, Boolean isChecked);
+    void onFavorite(DataSetNoteModel dataSetNoteModel, int position, Boolean isChecked);
 }
