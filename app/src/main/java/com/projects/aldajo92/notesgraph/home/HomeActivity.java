@@ -28,6 +28,9 @@ import com.projects.aldajo92.notesgraph.utils.Constants;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_NOTE_MODEL;
@@ -65,11 +68,16 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         setupFragments();
         setupViews();
 
-        homeViewModel.getLiveDataGraphs().observe(this, dataSetNoteModels -> {
-            dashBoardFragment.setDataSetNoteModelList(dataSetNoteModels);
+        homeViewModel.getLiveDataGraphs().observe(this, mapDataSetNoteModels -> {
+
+            Collection<DataSetNoteModel> collection = mapDataSetNoteModels.values();
+            List<DataSetNoteModel> models = new ArrayList<>(collection);
+            Collections.sort(models, (e1, e2) -> e1.getDate().compareTo(e2.getDate()));
+
+            dashBoardFragment.setDataSetNoteModelList(models);
 
             List<DataSetNoteModel> favoritesList = new ArrayList<>();
-            for(DataSetNoteModel noteModel: dataSetNoteModels){
+            for(DataSetNoteModel noteModel: models){
                 if(noteModel.getIsFavorite()){
                     favoritesList.add(noteModel);
                 }
@@ -188,7 +196,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void deleteItem(DataSetNoteModel model, int position) {
-        homeViewModel.removeItem(position);
+        homeViewModel.removeItem(model);
 //        if (fragmentActive instanceof DashBoardFragment) {
 //            ((DashBoardFragment) fragmentActive).deleteItem(model, position);
 //        }
@@ -223,7 +231,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onFavorite(DataSetNoteModel model, int position, Boolean isChecked) {
-        model.setFavorite(isChecked);
+        model.setIsFavorite(isChecked);
         homeViewModel.editItem(model, position);
     }
 

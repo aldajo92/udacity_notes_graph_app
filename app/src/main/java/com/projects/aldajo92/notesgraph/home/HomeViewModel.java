@@ -13,43 +13,36 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
 
 class HomeViewModel extends ViewModel {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private String uid;
 
-    private MutableLiveData<List<DataSetNoteModel>> liveDataGraphs = new MutableLiveData<>();
+    private MutableLiveData<HashMap<String, DataSetNoteModel>> liveDataGraphs = new MutableLiveData<>();
 
-    private DatabaseReference databaseRef = database.getReference("/users/" + uid + "/data/graphs");
+    private DatabaseReference databaseRef;
 
     public HomeViewModel() {
         createData();
     }
 
     private void createData() {
-
-//        DatabaseReference databaseRef = database.getReference("/users/" + uid + "/data");
-//        Map<String, List<DataSetNoteModel>> info = new HashMap<>();
-//        info.put("graphs", list);
-//        databaseRef.setValue(info);
-
-
-//        users.put("gracehop", new UserModel("December 9, 1906", "Grace Hopper"));
-//        DatabaseReference usersRef = databaseRef.child("users");
-
-//        databaseRef.addChildEventListener()
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseRef = database.getReference("/users/" + uid + "/data/graphs");
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<List<DataSetNoteModel>> other = new GenericTypeIndicator<List<DataSetNoteModel>>() {};
-                List<DataSetNoteModel> list = dataSnapshot.getValue(other);
-                if(list != null){
-                    liveDataGraphs.postValue(list);
+                GenericTypeIndicator<HashMap<String, DataSetNoteModel>> other = new GenericTypeIndicator<HashMap<String, DataSetNoteModel>>() {
+                };
+                HashMap<String, DataSetNoteModel> map = dataSnapshot.getValue(other);
+                if (map != null) {
+                    liveDataGraphs.postValue(map);
                 } else {
-                    liveDataGraphs.postValue(new ArrayList<>());
+                    liveDataGraphs.postValue(new HashMap<>());
                 }
             }
 
@@ -60,41 +53,26 @@ class HomeViewModel extends ViewModel {
         });
     }
 
-    public void removeItem(int position){
-        List<DataSetNoteModel> liveDataGraphsValue = liveDataGraphs.getValue();
-        if(liveDataGraphsValue != null){
-            liveDataGraphsValue.remove(position);
-            databaseRef.setValue(liveDataGraphsValue);
-        }
+    public void removeItem(DataSetNoteModel model) {
+        databaseRef.child(model.getID()).removeValue();
     }
 
-    public void addItem(DataSetNoteModel data){
-        String position = "0";
-        List<DataSetNoteModel> liveDataGraphsValue = liveDataGraphs.getValue();
-        if(liveDataGraphsValue != null){
-            position = String.valueOf(liveDataGraphsValue.size());
+    public void addItem(DataSetNoteModel model) {
+        String key = databaseRef.push().getKey();
+        if (key != null) {
+            model.setID(key);
+            model.setDate(Calendar.getInstance(Locale.getDefault()).getTimeInMillis());
+            databaseRef.child(key).setValue(model);
         }
-//        databaseRef.push().getKey();
-        databaseRef.child(position).setValue(data);
     }
 
     public void editItem(DataSetNoteModel model, int position) {
-        databaseRef.child(String.valueOf(position)).setValue(model);
-    }
-
-    private void createFavoriteData() {
-        List<DataSetNoteModel> list1 = new ArrayList<>();
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
-        list1.add(new DataSetNoteModel("Title Favorite", "description", new ArrayList<>()));
+        databaseRef.child(String.valueOf(model.getID())).setValue(model);
     }
 
     public static String TAG = "ADJ_TAG";
 
-    public MutableLiveData<List<DataSetNoteModel>> getLiveDataGraphs() {
+    public MutableLiveData<HashMap<String, DataSetNoteModel>> getLiveDataGraphs() {
         return liveDataGraphs;
     }
 }

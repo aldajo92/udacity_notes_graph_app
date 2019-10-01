@@ -13,6 +13,7 @@ public class DataSetNoteModel implements Parcelable {
     private String units;
     private List<EntryNoteModel> entryNoteModelList;
     private Boolean isFavorite = false;
+    private long date;
 
     public DataSetNoteModel() {
         this.ID = "";
@@ -20,6 +21,7 @@ public class DataSetNoteModel implements Parcelable {
         this.description = "";
         this.units = "";
         this.isFavorite = false;
+        this.date = 0L;
     }
 
     public DataSetNoteModel(String ID, String title, String description, String units, List<EntryNoteModel> entryNoteModelList) {
@@ -53,6 +55,7 @@ public class DataSetNoteModel implements Parcelable {
         entryNoteModelList = in.createTypedArrayList(EntryNoteModel.CREATOR);
         byte tmpIsFavorite = in.readByte();
         isFavorite = tmpIsFavorite == 0 ? null : tmpIsFavorite == 1;
+        date = in.readLong();
     }
 
     @Override
@@ -63,6 +66,7 @@ public class DataSetNoteModel implements Parcelable {
         dest.writeString(units);
         dest.writeTypedList(entryNoteModelList);
         dest.writeByte((byte) (isFavorite == null ? 0 : isFavorite ? 1 : 2));
+        dest.writeLong(date);
     }
 
     @Override
@@ -126,7 +130,15 @@ public class DataSetNoteModel implements Parcelable {
         return isFavorite;
     }
 
-    public void setFavorite(Boolean favorite) {
+    public void setIsFavorite(Boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 }
