@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "887842660412",
+    "firebase_url": "https://notesgraph.firebaseio.com",
+    "project_id": "notesgraph",
+    "storage_bucket": "notesgraph.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887842660412:android:ee8538eeffdd3babbb2339",
+        "android_client_info": {
+          "package_name": "com.projects.aldajo92.notesgraph"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887842660412-boh9cumg09saa04afjfdvv68vr14iv8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projects.aldajo92.notesgraph",
+            "certificate_hash": "5175f51a17ee26425fac27d6f4ecd989d040b126"
+          }
+        },
+        {
+          "client_id": "887842660412-5jp6og35chg4cgcard0ne2917mko8ku5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAqocQ9QM2GNkZLf0GyiI2rNHjhC32Xrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887842660412-5jp6og35chg4cgcard0ne2917mko8ku5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
