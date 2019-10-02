@@ -1,10 +1,12 @@
 package com.projects.aldajo92.notesgraph.home.adapter;
 
 import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -32,6 +34,7 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
 
     private TextView textViewTitle;
     private TextView textViewDescription;
+    private TextView textViewDescriptionTitle;
     private CardView cardView;
     private LineChart lineChart;
 
@@ -48,6 +51,7 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         textViewTitle = itemView.findViewById(R.id.textView_title);
         textViewDescription = itemView.findViewById(R.id.textView_description);
+        textViewDescriptionTitle = itemView.findViewById(R.id.textView_description_title);
         cardView = itemView.findViewById(R.id.cardView);
         lineChart = itemView.findViewById(R.id.lineaChart);
 
@@ -121,7 +125,7 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setLineData(List<EntryNoteModel> incomesData) {
-        if (incomesData != null) {
+        if (incomesData != null && !incomesData.isEmpty()) {
             List<Entry> linearEntryList = new ArrayList<>();
             for (int index = 0; index < incomesData.size(); index++) {
                 EntryNoteModel entryNoteModel = incomesData.get(index);
@@ -131,8 +135,8 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
             lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getAxisLabel(float value, AxisBase axis) {
-                    if (incomesData.isEmpty()) {
-                        return super.getAxisLabel(value, axis);
+                    if (value < 0 || value >= incomesData.size()) {
+                        return "";
                     } else {
                         return CalendarUtils.timestampToCalendarString(
                                 incomesData.get((int) value).getTimestamp(),
@@ -183,7 +187,14 @@ public class CardDataViewHolder extends RecyclerView.ViewHolder {
         lineChart.clear();
         lineChart.invalidate();
         textViewTitle.setText(data.getTitle());
-        textViewDescription.setText(data.getDescription());
+        if (data.getDescription().isEmpty()) {
+            textViewDescription.setVisibility(View.GONE);
+            textViewDescriptionTitle.setVisibility(View.GONE);
+        } else {
+            textViewDescription.setVisibility(View.VISIBLE);
+            textViewDescriptionTitle.setVisibility(View.VISIBLE);
+            textViewDescription.setText(data.getDescription());
+        }
         checkFavorite.setChecked(data.getIsFavorite());
         setLineData(data.getEntryNoteModelList());
     }

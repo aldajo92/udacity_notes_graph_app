@@ -2,6 +2,7 @@ package com.projects.aldajo92.notesgraph.details.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +19,19 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntryViewHolder> {
 
     private EntryDataListener entryDataListener;
 
+    private String units;
+
     public EntriesAdapter(List<EntryNoteModel> entryNoteModelList) {
         this.entryNoteModelList = entryNoteModelList;
     }
 
     public EntriesAdapter(List<EntryNoteModel> entryNoteModelList, EntryDataListener entryDataListener) {
-        this.entryNoteModelList = (entryNoteModelList != null) ?  entryNoteModelList : new ArrayList<>();
+        this.entryNoteModelList = (entryNoteModelList != null) ? entryNoteModelList : new ArrayList<>();
         this.entryDataListener = entryDataListener;
     }
 
     public void setEntryDataListener(EntryDataListener entryDataListener) {
         this.entryDataListener = entryDataListener;
-    }
-
-    public void setEntryNoteModelList(List<EntryNoteModel> entryNoteModelList) {
-        this.entryNoteModelList = entryNoteModelList;
-        notifyDataSetChanged();
     }
 
     public void addItem(EntryNoteModel model) {
@@ -51,6 +49,10 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntryViewHolder> {
         notifyItemRemoved(position);
     }
 
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
     @NonNull
     @Override
     public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -60,13 +62,21 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntryViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull EntryViewHolder viewHolder, int i) {
+        viewHolder.setUnits(units);
         viewHolder.bindData(entryNoteModelList.get(i));
         viewHolder.bindListener(entryDataListener);
     }
 
     @Override
     public int getItemCount() {
+        if (entryNoteModelList == null) {
+            return 0;
+        }
         return entryNoteModelList.size();
     }
 
+    public void addItems(List<EntryNoteModel> incomesData) {
+        this.entryNoteModelList = incomesData;
+        notifyDataSetChanged();
+    }
 }

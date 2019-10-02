@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class EntryNoteModel implements Parcelable {
 
-    private long timestamp;
+    private Long timestamp;
 
     private float value;
 
@@ -56,7 +56,7 @@ public class EntryNoteModel implements Parcelable {
         }
     };
 
-    public long getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
@@ -87,4 +87,5 @@ public class EntryNoteModel implements Parcelable {
     public void setUrlPicture(String urlPicture) {
         this.urlPicture = urlPicture;
     }
+
 }

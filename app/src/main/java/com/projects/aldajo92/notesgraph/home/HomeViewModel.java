@@ -20,6 +20,7 @@ import java.util.Locale;
 class HomeViewModel extends ViewModel {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     private String uid;
 
     private MutableLiveData<HashMap<String, DataSetNoteModel>> liveDataGraphs = new MutableLiveData<>();
@@ -53,7 +54,7 @@ class HomeViewModel extends ViewModel {
         });
     }
 
-    public void removeItem(DataSetNoteModel model) {
+    public void removeItem(DataSetNoteModel model, int position) {
         databaseRef.child(model.getID()).removeValue();
     }
 

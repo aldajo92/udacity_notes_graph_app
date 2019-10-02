@@ -3,15 +3,21 @@ package com.projects.aldajo92.notesgraph.details;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -50,26 +56,79 @@ public class DetailGraphActivity extends AppCompatActivity implements EntryDataL
     private LineChart lineChart;
     private RecyclerView recyclerView;
     private EntriesAdapter adapter;
+    private CheckBox favoriteCheckbox;
 
     private List<Entry> linearEntryList;
     private LineDataSet set1;
+
+    private DetailGraphViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_graph);
 
+        initViews();
+
+        initDataSet();
+
+        handleExtras();
+
+        initLinearData();
+
+        viewModel.getLiveDataListEntries().observe(this, this::setEntries);
+    }
+
+    private void initViews() {
         fabAddButton = findViewById(R.id.fabButton);
         lineChart = findViewById(R.id.lineaChart_entries);
         recyclerView = findViewById(R.id.recyclerView_entries);
+        favoriteCheckbox = findViewById(R.id.checkBox_favorite);
 
         fabAddButton.setOnClickListener(v -> openCreateEntry());
 
+        favoriteCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> viewModel.favoriteSelected(isChecked));
+
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void initDataSet(){
+        set1 = new LineDataSet(linearEntryList, "DataSet");
+
+        set1.setDrawIcons(false);
+        set1.setColor(ContextCompat.getColor(this, R.color.clear_color));
+        set1.setCircleColor(Color.WHITE);
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(6f);
+        set1.setCircleHoleRadius(4f);
+        set1.setDrawCircleHole(true);
+        set1.setCircleHoleColor(Color.BLACK);
+        set1.setDrawValues(false);
+        set1.setValueTextSize(9f);
+        set1.setDrawFilled(false);
+        set1.setFormLineWidth(1f);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        set1.setFormSize(15f);
+
+        set1.setFillColor(Color.BLACK);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+
+        lineChart.setData(new LineData(dataSets));
+    }
+
+    private void handleExtras() {
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_DETAIL_NOTE_MODEL)) {
             DataSetNoteModel model = intent.getParcelableExtra(EXTRA_DETAIL_NOTE_MODEL);
+            viewModel = new DetailGraphViewModel(model);
 
             adapter = new EntriesAdapter(model.getEntryNoteModelList(), this);
+            favoriteCheckbox.setChecked(model.getIsFavorite());
             recyclerView.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setReverseLayout(true);
@@ -77,27 +136,13 @@ public class DetailGraphActivity extends AppCompatActivity implements EntryDataL
             recyclerView.setLayoutManager(linearLayoutManager);
 
             setTitle(model.getTitle());
-
-            setLineData(model.getEntryNoteModelList());
+            setEntries(model.getEntryNoteModelList());
         }
-
-        ActionBar supportActionBar = getSupportActionBar();
-        if (supportActionBar != null) {
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        initLinearData();
     }
 
     private void openCreateEntry() {
         Intent intent = new Intent(this, EditCreateEntryActivity.class);
         startActivityForResult(intent, REQUEST_CREATE_ENTRY);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
-        return true;
     }
 
     @Override
@@ -145,8 +190,8 @@ public class DetailGraphActivity extends AppCompatActivity implements EntryDataL
 
     }
 
-    private void setLineData(List<EntryNoteModel> incomesData) {
-        if (incomesData != null) {
+    private void setEntries(List<EntryNoteModel> incomesData) {
+        if (incomesData != null && !incomesData.isEmpty()) {
             linearEntryList = new ArrayList<>();
             int entriesSize = incomesData.size();
             for (int index = 0; index < entriesSize; index++) {
@@ -157,8 +202,8 @@ public class DetailGraphActivity extends AppCompatActivity implements EntryDataL
             lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getAxisLabel(float value, AxisBase axis) {
-                    if (incomesData.isEmpty()) {
-                        return super.getAxisLabel(value, axis);
+                    if (value < 0 || value >= incomesData.size()) {
+                        return "";
                     } else {
                         return CalendarUtils.timestampToCalendarString(
                                 incomesData.get((int) value).getTimestamp(),
@@ -173,38 +218,24 @@ public class DetailGraphActivity extends AppCompatActivity implements EntryDataL
                 set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
                 set1.setValues(linearEntryList);
                 lineChart.getData().notifyDataChanged();
-                lineChart.notifyDataSetChanged();
-            } else {
-                set1 = new LineDataSet(linearEntryList, "DataSet 1");
-
-                set1.setDrawIcons(false);
-                set1.setColor(ContextCompat.getColor(this, R.color.clear_color));
-                set1.setCircleColor(Color.WHITE);
-                set1.setLineWidth(3f);
-                set1.setCircleRadius(6f);
-                set1.setCircleHoleRadius(4f);
-                set1.setDrawCircleHole(true);
-                set1.setCircleHoleColor(Color.BLACK);
-                set1.setDrawValues(false);
-                set1.setValueTextSize(9f);
-                set1.setDrawFilled(false);
-                set1.setFormLineWidth(1f);
-                set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                set1.setFormSize(15f);
-
-                set1.setFillColor(Color.BLACK);
-
-                ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-                dataSets.add(set1);
-
-                lineChart.setData(new LineData(dataSets));
+//                lineChart.notifyDataSetChanged();
             }
+        } else {
+            lineChart.clear();
+//            lineChart.notifyDataSetChanged();
         }
+
+        adapter.addItems(incomesData);
+        adapter.setUnits(viewModel.getModel().getUnits());
+//        lineChart.getData().notifyDataChanged();
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
+        recyclerView.smoothScrollToPosition(adapter.getItemCount());
     }
 
     @Override
     public void onClick(EntryNoteModel entryNoteModel, int position) {
-        DetailEntryDialog dialog = DetailEntryDialog.createInstance(entryNoteModel, position, this::openEdit);
+        DetailEntryDialog dialog = DetailEntryDialog.createInstance(entryNoteModel, position, viewModel.getModel().getUnits(),this::openEdit);
         dialog.show(getSupportFragmentManager(), "name");
     }
 
@@ -224,24 +255,30 @@ public class DetailGraphActivity extends AppCompatActivity implements EntryDataL
                 EntryNoteModel model = data.getParcelableExtra(EXTRA_ENTRY_MODEL);
                 int position = data.getIntExtra(EXTRA_POSITION, -1);
                 if (resultCode == RESULT_OK) {
+                    viewModel.updateItem(position, model);
                     adapter.updateItem(position, model);
                 } else if (resultCode == RESULT_DELETE_ITEM) {
-                    adapter.deleteItem(position, model);
+                    viewModel.deleteItem(position, model);
                 }
             }
-        } else if(requestCode == REQUEST_CREATE_ENTRY){
+        } else if (requestCode == REQUEST_CREATE_ENTRY) {
             if (data != null) {
                 EntryNoteModel model = data.getParcelableExtra(EXTRA_ENTRY_MODEL);
                 if (resultCode == RESULT_OK) {
-                    insertItem(model);
+                    viewModel.addItem(model);
                 }
             }
         }
     }
 
-    private void insertItem(EntryNoteModel model) {
+    // TODO: Implement this method, once add single item from firebase is added instead list
+    private void addEntry(EntryNoteModel model) {
         adapter.addItem(model);
-        set1.addEntry(new Entry(linearEntryList.size(), model.getValue()));
+        int size = 0;
+        if (linearEntryList != null) {
+            size = linearEntryList.size();
+        }
+        set1.addEntry(new Entry(size, model.getValue()));
         lineChart.getData().notifyDataChanged();
         lineChart.notifyDataSetChanged();
         lineChart.invalidate();

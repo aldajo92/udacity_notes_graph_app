@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
-        android:id="@+id/imageView_favorite"
+        android:id="@+id/checkBox_favorite"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:button="@drawable/background_favorite"
@@ -63,6 +63,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginEnd="@dimen/spacing_medium"
         android:layout_marginStart="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_xxxxhuge"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/textView_description" />
 
     <com.github.mikephil.charting.charts.LineChart
@@ -73,6 +75,6 @@
         android:layout_marginEnd="@dimen/spacing_medium"
         android:layout_marginStart="@dimen/spacing_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView_favorite" />
+        app:layout_constraintTop_toBottomOf="@id/checkBox_favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

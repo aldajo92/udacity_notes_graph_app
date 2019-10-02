@@ -14,8 +14,11 @@ import android.widget.TextView;
 
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
+import com.projects.aldajo92.notesgraph.utils.CalendarUtils;
 
 import java.util.Locale;
+
+import static com.projects.aldajo92.notesgraph.utils.CalendarUtils.DATE_LABEL_FORMAT;
 
 public class DetailEntryDialog extends DialogFragment {
 
@@ -31,6 +34,8 @@ public class DetailEntryDialog extends DialogFragment {
 
     private int position = -1;
 
+    private String units = "";
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -41,8 +46,8 @@ public class DetailEntryDialog extends DialogFragment {
         textViewDescription = view.findViewById(R.id.textView_description);
         textViewPosition = view.findViewById(R.id.textView_position);
 
-        textViewDate.setText("" + noteModel.getTimestamp());
-        textViewValue.setText(String.format(Locale.getDefault(), "%.2f", noteModel.getValue()));
+        textViewDate.setText(CalendarUtils.timestampToCalendarString(noteModel.getTimestamp(), DATE_LABEL_FORMAT));
+        textViewValue.setText(String.format(Locale.getDefault(), "%.2f %s", noteModel.getValue(), units));
         textViewDescription.setText(noteModel.getDescription());
         textViewPosition.setText(String.format("%s", position));
 
@@ -83,11 +88,17 @@ public class DetailEntryDialog extends DialogFragment {
         this.position = position;
     }
 
-    public static DetailEntryDialog createInstance(EntryNoteModel noteModel, int position, EditEntryCallback callback) {
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
+    public static DetailEntryDialog createInstance(EntryNoteModel noteModel, int position, String units, EditEntryCallback callback) {
         DetailEntryDialog dialog = new DetailEntryDialog();
         dialog.setNoteModel(noteModel);
         dialog.setPosition(position);
+        dialog.setUnits(units);
         dialog.setCallback(callback);
+
         return dialog;
     }
 

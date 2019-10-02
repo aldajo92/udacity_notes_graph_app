@@ -30,7 +30,6 @@ import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_NOTE_MODEL;
@@ -167,7 +166,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
                 if (resultCode == RESULT_OK) {
                     int position = data.getIntExtra(EXTRA_POSITION, -1);
-                    editItem(model, position);
+                    homeViewModel.editItem(model, position);
                 }
             }
         } else if (requestCode == REQUEST_CREATE_GRAPH) {
@@ -175,31 +174,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
                 if (resultCode == RESULT_OK) {
                     bottomNavigationView.setSelectedItemId(R.id.action_dashboard);
-                    insertItem(model);
+                    homeViewModel.addItem(model);
                 }
             }
         }
-    }
-
-    private void editItem(DataSetNoteModel model, int position) {
-        homeViewModel.editItem(model, position);
-//        if (fragmentActive instanceof DashBoardFragment) {
-//            ((DashBoardFragment) fragmentActive).updateData(model, position);
-//        }
-    }
-
-    private void insertItem(DataSetNoteModel model) {
-        homeViewModel.addItem(model);
-//        if (fragmentActive instanceof DashBoardFragment) {
-//            ((DashBoardFragment) fragmentActive).addItem(model);
-//        }
-    }
-
-    private void deleteItem(DataSetNoteModel model, int position) {
-        homeViewModel.removeItem(model);
-//        if (fragmentActive instanceof DashBoardFragment) {
-//            ((DashBoardFragment) fragmentActive).deleteItem(model, position);
-//        }
     }
 
     @Override
@@ -208,7 +186,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 ConfirmDeleteDialog.createInstance(
                         dataSetNoteModel,
                         position,
-                        this::deleteItem
+                        homeViewModel::removeItem
                 );
         dialog.show(getSupportFragmentManager(), "name");
     }

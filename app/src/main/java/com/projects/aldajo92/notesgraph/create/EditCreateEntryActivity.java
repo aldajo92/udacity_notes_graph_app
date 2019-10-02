@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
+import com.projects.aldajo92.notesgraph.utils.CalendarUtils;
 
 import java.util.Calendar;
+
+import static com.projects.aldajo92.notesgraph.utils.CalendarUtils.DATE_LABEL_FORMAT;
 
 public class EditCreateEntryActivity extends AppCompatActivity {
     public static int REQUEST_EDIT_ENTRY = 0x03;
@@ -67,8 +70,8 @@ public class EditCreateEntryActivity extends AppCompatActivity {
             model = intent.getParcelableExtra(EXTRA_ENTRY_MODEL);
             position = intent.getIntExtra(EXTRA_POSITION, -1);
             if (requestCode == REQUEST_EDIT_ENTRY) {
-                textViewDate.setText("" + model.getTimestamp());
-                editTextValue.setText("" + model.getValue());
+                textViewDate.setText(CalendarUtils.timestampToCalendarString(model.getTimestamp(), DATE_LABEL_FORMAT));
+                editTextValue.setText(String.format("%s", model.getValue()));
                 editTextDescription.setText(model.getDescription());
 
                 buttonCreate.setText(R.string.text_update);
@@ -78,7 +81,7 @@ public class EditCreateEntryActivity extends AppCompatActivity {
             }
         } else {
             long time = Calendar.getInstance().getTimeInMillis();
-            textViewDate.setText("" + time);
+            textViewDate.setText(CalendarUtils.timestampToCalendarString(time, DATE_LABEL_FORMAT));
         }
     }
 
@@ -95,7 +98,7 @@ public class EditCreateEntryActivity extends AppCompatActivity {
         if (!textValue.isEmpty()) {
 
             long date = Long.parseLong(textViewDate.getText().toString());
-            int value = Integer.parseInt(textValue);
+            float value = Float.parseFloat(textValue);
             String description = editTextDescription.getText().toString();
 
             if (isEditMode) {
