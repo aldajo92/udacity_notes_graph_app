@@ -41,6 +41,9 @@
     <string name="text_accessibility_edit_current_entry">Edit current entry</string>
     <string name="text_accessibility_edit_graph">Edit graph</string>
     <string name="text_accessibility_delete_graph">Delete graph</string>
+
+    <!--    Messages-->
     <string name="text_authentication_failed">Authentication Failed.</string>
+    <string name="text_error_network">Network Error: Check your Internet connection.</string>
 
 </resources>

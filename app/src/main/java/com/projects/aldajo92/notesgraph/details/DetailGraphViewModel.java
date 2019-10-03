@@ -60,7 +60,7 @@ class DetailGraphViewModel extends ViewModel {
     public void addItem(EntryNoteModel model) {
         model.setTimestamp(Calendar.getInstance(Locale.getDefault()).getTimeInMillis());
         List<EntryNoteModel> list = liveDataListEntries.getValue();
-        if(list == null){
+        if (list == null) {
             list = new ArrayList<>();
         }
         list.add(model);
@@ -73,7 +73,7 @@ class DetailGraphViewModel extends ViewModel {
 
     public void deleteItem(int position, EntryNoteModel model) {
         List<EntryNoteModel> list = liveDataListEntries.getValue();
-        if(list != null){
+        if (list != null) {
             list.remove(position);
             databaseRef.setValue(list);
         }

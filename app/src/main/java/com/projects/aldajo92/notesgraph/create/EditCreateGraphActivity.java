@@ -10,12 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.projects.aldajo92.notesgraph.BaseActivity;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
 import java.util.ArrayList;
 
-public class EditCreateGraphActivity extends AppCompatActivity {
+public class EditCreateGraphActivity extends BaseActivity {
     public static int REQUEST_EDIT_GRAPH = 0x05;
     public static int REQUEST_CREATE_GRAPH = 0x17;
 

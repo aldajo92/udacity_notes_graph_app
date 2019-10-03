@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,7 +24,7 @@ import com.projects.aldajo92.notesgraph.models.UserModel;
 
 import static com.projects.aldajo92.notesgraph.utils.Constants.USER_EXTRA;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     public static int SPLASH_DURATION = 1000;
     private static final int RC_SIGN_IN = 0X17;
@@ -84,7 +83,7 @@ public class SplashActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 fireBaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                Snackbar.make(findViewById(R.id.layout_splash), getString(R.string.text_authentication_failed), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.content), getString(R.string.text_authentication_failed), Snackbar.LENGTH_SHORT).show();
                 button.setVisibility(View.VISIBLE);
             }
         }
@@ -99,7 +98,7 @@ public class SplashActivity extends AppCompatActivity {
                         validateLogin(currentUser);
                         updateUI(currentUser);
                     } else {
-                        Snackbar.make(findViewById(R.id.layout_splash), getString(R.string.text_authentication_failed), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.content), getString(R.string.text_authentication_failed), Snackbar.LENGTH_SHORT).show();
                         button.setVisibility(View.VISIBLE);
                     }
                 });

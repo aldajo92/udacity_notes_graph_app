@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.projects.aldajo92.notesgraph.BaseActivity;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.SplashActivity;
 import com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity;
@@ -39,7 +40,7 @@ import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.RE
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.REQUEST_EDIT_GRAPH;
 import static com.projects.aldajo92.notesgraph.details.DetailGraphActivity.EXTRA_DETAIL_NOTE_MODEL;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CardDataListener {
+public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CardDataListener {
 
     private DashBoardFragment dashBoardFragment, favoritesFragment;
     private SettingsFragment settingsFragment;
@@ -223,10 +224,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private void openCreateGraph() {
         Intent intent = new Intent(this, EditCreateGraphActivity.class);
         startActivityForResult(intent, REQUEST_CREATE_GRAPH);
-    }
-
-    private void showToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
     private void signOut() {

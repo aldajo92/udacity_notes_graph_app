@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.projects.aldajo92.notesgraph.BaseActivity;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.EntryNoteModel;
 import com.projects.aldajo92.notesgraph.utils.CalendarUtils;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 
 import static com.projects.aldajo92.notesgraph.utils.CalendarUtils.DATE_LABEL_FORMAT;
 
-public class EditCreateEntryActivity extends AppCompatActivity {
+public class EditCreateEntryActivity extends BaseActivity {
     public static int REQUEST_EDIT_ENTRY = 0x03;
     public static int REQUEST_CREATE_ENTRY = 0x7;
 

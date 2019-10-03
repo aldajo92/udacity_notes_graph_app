@@ -3,21 +3,14 @@ package com.projects.aldajo92.notesgraph.details;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -28,6 +21,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.projects.aldajo92.notesgraph.BaseActivity;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.create.EditCreateEntryActivity;
 import com.projects.aldajo92.notesgraph.details.adapter.EntriesAdapter;
@@ -48,7 +43,7 @@ import static com.projects.aldajo92.notesgraph.create.EditCreateEntryActivity.RE
 import static com.projects.aldajo92.notesgraph.create.EditCreateEntryActivity.REQUEST_EDIT_ENTRY;
 import static com.projects.aldajo92.notesgraph.create.EditCreateEntryActivity.RESULT_DELETE_ITEM;
 
-public class DetailGraphActivity extends AppCompatActivity implements EntryDataListener {
+public class DetailGraphActivity extends BaseActivity implements EntryDataListener {
 
     public static String EXTRA_DETAIL_NOTE_MODEL = "com.projects.aldajo92.extra_detail_note_model";
 
@@ -218,16 +213,13 @@ public class DetailGraphActivity extends AppCompatActivity implements EntryDataL
                 set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
                 set1.setValues(linearEntryList);
                 lineChart.getData().notifyDataChanged();
-//                lineChart.notifyDataSetChanged();
             }
         } else {
             lineChart.clear();
-//            lineChart.notifyDataSetChanged();
         }
 
         adapter.addItems(incomesData);
         adapter.setUnits(viewModel.getModel().getUnits());
-//        lineChart.getData().notifyDataChanged();
         lineChart.notifyDataSetChanged();
         lineChart.invalidate();
         recyclerView.smoothScrollToPosition(adapter.getItemCount());
