@@ -8,15 +8,19 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleService;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
+import com.projects.aldajo92.notesgraph.utils.PreferenceUtil;
 import com.projects.aldajo92.notesgraph.widget.GraphWidgetProvider;
 import com.projects.aldajo92.notesgraph.widget.WidgetType;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+
+import static com.projects.aldajo92.notesgraph.widget.GraphListWidgetService.GRAPHS_ENTRIES_KEY;
 
 public class GraphWidgetService extends LifecycleService {
 
@@ -35,29 +39,26 @@ public class GraphWidgetService extends LifecycleService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null) {
             viewModel.configFBListener();
-            viewModel.getLiveDataGraphs().observe(this, stringDataSetNoteModelHashMap -> {
-                Collection<DataSetNoteModel> collection = stringDataSetNoteModelHashMap.values();
-                List<DataSetNoteModel> listModels = new ArrayList<>(collection);
-                Collections.sort(listModels, (e1, e2) -> e1.getDate().compareTo(e2.getDate()));
 
-                if (!listModels.isEmpty()) {
-                    widgetType = WidgetType.GRAPH;
-                    dataSetNoteModels = listModels;
-                } else {
-                    widgetType = WidgetType.NONE;
-                }
-                updateWidget();
-            });
-        }
+            Type type = new TypeToken<ArrayList<DataSetNoteModel>>(){}.getType();
+            String rawString = PreferenceUtil.getString(getApplicationContext(), GRAPHS_ENTRIES_KEY);
+            ArrayList<DataSetNoteModel> list = new Gson().fromJson(rawString, type);
+
+            if (!list.isEmpty()) {
+                widgetType = WidgetType.GRAPH;
+                dataSetNoteModels = list;
+            } else {
+                widgetType = WidgetType.NONE;
+            }
+            updateWidget();
 
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void updateWidget() {
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, GraphWidgetProvider.class));
-        GraphWidgetProvider.updateRecipeWidgets(this, appWidgetManager, appWidgetIds, widgetType, dataSetNoteModels);
+        GraphWidgetProvider.updateRecipeWidgets(this, appWidgetManager, appWidgetIds);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list_view);
     }
 

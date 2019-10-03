@@ -45,14 +45,6 @@ public class GraphListRemoteViewsFactory implements RemoteViewsService.RemoteVie
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_item);
         views.setTextViewText(R.id.textView_ingredient_summary, dataSet.getTitle());
-        views.setImageViewResource(
-                R.id.imageView_favorite_icon,
-                dataSet.getIsFavorite() ? R.drawable.ic_favorite : R.drawable.ic_favorite_disabled
-        );
-
-//        Intent intent = new Intent();
-//        intent.putExtra(EXTRA_GRAPH, dataSet);
-//        views.setOnClickFillInIntent(R.id.layout_root, intent);
 
         return views;
     }

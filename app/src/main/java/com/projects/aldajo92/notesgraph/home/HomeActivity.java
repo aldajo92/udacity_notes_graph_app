@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -56,14 +54,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     private UserModel userModel;
 
-    private HomeViewModel homeViewModel;
+    private HomeViewModel viewModel;
+
+    private List<DataSetNoteModel> listModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        homeViewModel = new HomeViewModel();
+        viewModel = new HomeViewModel();
 
         if (getIntent().hasExtra(Constants.USER_EXTRA)) {
             userModel = getIntent().getParcelableExtra(Constants.USER_EXTRA);
@@ -72,10 +72,10 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         setupFragments();
         setupViews();
 
-        homeViewModel.getLiveDataGraphs().observe(this, mapDataSetNoteModels -> {
+        viewModel.getLiveDataGraphs().observe(this, mapDataSetNoteModels -> {
 
             Collection<DataSetNoteModel> collection = mapDataSetNoteModels.values();
-            List<DataSetNoteModel> listModels = new ArrayList<>(collection);
+            listModels = new ArrayList<>(collection);
             Collections.sort(listModels, (e1, e2) -> e1.getDate().compareTo(e2.getDate()));
 
             dashBoardFragment.setDataSetNoteModelList(listModels);
@@ -88,15 +88,21 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             }
 
             favoritesFragment.setDataSetNoteModelList(favoritesList);
-
-            String recipesJson = new Gson().toJson(listModels);
-            PreferenceUtil.saveString(HomeActivity.this, GRAPHS_ENTRIES_KEY, recipesJson);
-            GraphWidgetService.startActionUpdateWidgets(HomeActivity.this);
         });
 
 
 //        dashBoardFragment.setDataSetNoteModelList(list);
 //        favoritesFragment.setDataSetNoteModelList(list1);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(listModels != null){
+            String recipesJson = new Gson().toJson(listModels);
+            PreferenceUtil.saveString(HomeActivity.this, GRAPHS_ENTRIES_KEY, recipesJson);
+            GraphWidgetService.startActionUpdateWidgets(HomeActivity.this);
+        }
     }
 
     private void setupFragments(){
@@ -175,7 +181,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
                 if (resultCode == RESULT_OK) {
                     int position = data.getIntExtra(EXTRA_POSITION, -1);
-                    homeViewModel.editItem(model, position);
+                    viewModel.editItem(model, position);
                 }
             }
         } else if (requestCode == REQUEST_CREATE_GRAPH) {
@@ -183,7 +189,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 DataSetNoteModel model = data.getParcelableExtra(EXTRA_NOTE_MODEL);
                 if (resultCode == RESULT_OK) {
                     bottomNavigationView.setSelectedItemId(R.id.action_dashboard);
-                    homeViewModel.addItem(model);
+                    viewModel.addItem(model);
                 }
             }
         }
@@ -195,7 +201,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 ConfirmDeleteDialog.createInstance(
                         dataSetNoteModel,
                         position,
-                        homeViewModel::removeItem
+                        viewModel::removeItem
                 );
         dialog.show(getSupportFragmentManager(), "name");
     }
@@ -219,7 +225,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void onFavorite(DataSetNoteModel model, int position, Boolean isChecked) {
         model.setIsFavorite(isChecked);
-        homeViewModel.editItem(model, position);
+        viewModel.editItem(model, position);
     }
 
     private void showFragment(Fragment fragment){

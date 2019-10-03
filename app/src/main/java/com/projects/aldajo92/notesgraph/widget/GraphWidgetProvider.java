@@ -8,25 +8,30 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.SplashActivity;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.utils.PreferenceUtil;
-import com.projects.aldajo92.notesgraph.widget.service.GraphWidgetService;
 
-import java.util.List;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import static com.projects.aldajo92.notesgraph.widget.GraphListWidgetService.GRAPHS_ENTRIES_KEY;
 
 public class GraphWidgetProvider extends AppWidgetProvider {
 
     static void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager,
-                                final int appWidgetId, WidgetType widgetType, List<DataSetNoteModel> dataSetNoteModels) {
+                                final int appWidgetId) {
 
         RemoteViews views;
 
-        if (widgetType == WidgetType.GRAPH) {
-            RemoteViews views12 = getRecipeListRemoteView(context, dataSetNoteModels);
+        Type type = new TypeToken<ArrayList<DataSetNoteModel>>(){}.getType();
+        String rawString = PreferenceUtil.getString(context, GRAPHS_ENTRIES_KEY);
+        ArrayList<DataSetNoteModel> list = new Gson().fromJson(rawString, type);
+
+        if (!list.isEmpty()) {
+            RemoteViews views12 = getRecipeListRemoteView(context);
             appWidgetManager.updateAppWidget(appWidgetId, views12);
         } else {
             views = getEmptyRemoteView(context);
@@ -34,13 +39,13 @@ public class GraphWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    public static void updateRecipeWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds, WidgetType widgetType, List<DataSetNoteModel> dataSetNoteModels) {
+    public static void updateRecipeWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, widgetType, dataSetNoteModels);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
 
-    private static RemoteViews getRecipeListRemoteView(Context context, List<DataSetNoteModel> dataSetNoteModels) {
+    private static RemoteViews getRecipeListRemoteView(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_view);
         String title = context.getString(R.string.title_dashboard);
         views.setTextViewText(R.id.title_text_view, title);
@@ -71,7 +76,9 @@ public class GraphWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        GraphWidgetService.startActionUpdateWidgets(context);
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
     }
 
     @Override

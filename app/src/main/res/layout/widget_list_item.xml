@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/widget_margin"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_favorite"
+        android:src="@drawable/ic_dashboard_gray"
         android:enabled="false"
         android:gravity="center" />
 
