@@ -3,7 +3,6 @@ package com.projects.aldajo92.notesgraph;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -85,7 +84,7 @@ public class SplashActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 fireBaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                Log.w("ADJGF", "Google sign in failed", e);
+                Snackbar.make(findViewById(R.id.layout_splash), getString(R.string.text_authentication_failed), Snackbar.LENGTH_SHORT).show();
                 button.setVisibility(View.VISIBLE);
             }
         }
@@ -100,7 +99,7 @@ public class SplashActivity extends AppCompatActivity {
                         validateLogin(currentUser);
                         updateUI(currentUser);
                     } else {
-                        Snackbar.make(findViewById(R.id.layout_splash), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.layout_splash), getString(R.string.text_authentication_failed), Snackbar.LENGTH_SHORT).show();
                         button.setVisibility(View.VISIBLE);
                     }
                 });

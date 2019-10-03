@@ -38,6 +38,7 @@
         <ImageView
             android:layout_width="@dimen/icon_profile_size"
             android:layout_height="@dimen/icon_profile_size"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_account_circle" />
 
         <TextView

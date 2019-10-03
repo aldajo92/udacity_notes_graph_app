@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:padding="@dimen/font_normal">
 
-        <!--TODO: Set content description-->
         <CheckBox
             android:id="@+id/imageView_favorite"
             android:layout_width="0dp"
@@ -28,6 +27,7 @@
             android:id="@+id/imageView_vertical_dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/lineaChart"
@@ -50,11 +50,11 @@
             android:id="@+id/textView_description_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
             android:text="@string/text_description"
             android:textSize="@dimen/font_small"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/spacing_large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lineaChart" />
 

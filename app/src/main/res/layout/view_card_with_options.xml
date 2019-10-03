@@ -22,6 +22,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/spacing_xmedium"
             android:backgroundTint="@color/background_gray01"
+            android:contentDescription="@string/text_accessibility_edit_graph"
             app:srcCompat="@drawable/ic_edit" />
 
         <ImageButton
@@ -30,6 +31,7 @@
             android:layout_height="@dimen/button_edit_width"
             android:layout_gravity="center_vertical"
             android:backgroundTint="@color/red_pastel"
+            android:contentDescription="@string/text_accessibility_delete_graph"
             app:srcCompat="@drawable/ic_delete" />
 
     </LinearLayout>

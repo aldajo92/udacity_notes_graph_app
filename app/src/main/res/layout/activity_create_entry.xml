@@ -74,6 +74,8 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:backgroundTint="@color/red_pastel"
         android:text="@string/text_continue"
+        tools:visibility="visible"
+        android:contentDescription="@string/text_accessibility_delete_entry"
         app:srcCompat="@drawable/ic_delete" />
 
 </LinearLayout>

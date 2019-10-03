@@ -34,4 +34,13 @@
     <string name="title_create_entry">Create Entry</string>
     <string name="text_position">Position:</string>
     <string name="sign_out">Sign Out</string>
+
+    <!--    Accessibility-->
+    <string name="text_accessibility_delete_entry">Delete Entry</string>
+    <string name="text_accessibility_application_logo">Application logo</string>
+    <string name="text_accessibility_edit_current_entry">Edit current entry</string>
+    <string name="text_accessibility_edit_graph">Edit graph</string>
+    <string name="text_accessibility_delete_graph">Delete graph</string>
+    <string name="text_authentication_failed">Authentication Failed.</string>
+
 </resources>
