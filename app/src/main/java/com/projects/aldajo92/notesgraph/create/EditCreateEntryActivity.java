@@ -98,7 +98,7 @@ public class EditCreateEntryActivity extends BaseActivity {
         String textValue = editTextValue.getText().toString();
         if (!textValue.isEmpty()) {
 
-            long date = Long.parseLong(textViewDate.getText().toString());
+            long date = Calendar.getInstance().getTimeInMillis();
             float value = Float.parseFloat(textValue);
             String description = editTextDescription.getText().toString();
 
