@@ -36,7 +36,6 @@ public class BaseActivity extends AppCompatActivity implements CheckConnectionLi
 
     @Override
     public void connectionEvent(Boolean isConnected) {
-        showErrorMessage(getString(R.string.text_error_network));
         if (!isConnected) {
             showErrorMessage(getString(R.string.text_error_network));
         }

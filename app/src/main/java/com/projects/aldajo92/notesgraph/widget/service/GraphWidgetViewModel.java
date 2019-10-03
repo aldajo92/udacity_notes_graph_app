@@ -1,8 +1,10 @@
-package com.projects.aldajo92.notesgraph.home;
+package com.projects.aldajo92.notesgraph.widget.service;
+
+import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -13,26 +15,24 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 
-class HomeViewModel extends ViewModel {
+class GraphWidgetViewModel extends AndroidViewModel {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    private DatabaseReference databaseRef;
     private String uid;
 
     private MutableLiveData<HashMap<String, DataSetNoteModel>> liveDataGraphs = new MutableLiveData<>();
 
-    private DatabaseReference databaseRef;
+    public GraphWidgetViewModel(Application application) {
+        super(application);
 
-    public HomeViewModel() {
-        getDatabaseData();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        configFBListener();
     }
 
-    private void getDatabaseData() {
-        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    public void configFBListener() {
         databaseRef = database.getReference("/users/" + uid + "/data/graphs");
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -54,24 +54,11 @@ class HomeViewModel extends ViewModel {
         });
     }
 
-    public void removeItem(DataSetNoteModel model, int position) {
-        databaseRef.child(model.getID()).removeValue();
-    }
-
-    public void addItem(DataSetNoteModel model) {
-        String key = databaseRef.push().getKey();
-        if (key != null) {
-            model.setID(key);
-            model.setDate(Calendar.getInstance(Locale.getDefault()).getTimeInMillis());
-            databaseRef.child(key).setValue(model);
-        }
-    }
-
-    public void editItem(DataSetNoteModel model, int position) {
-        databaseRef.child(String.valueOf(model.getID())).setValue(model);
-    }
-
     public MutableLiveData<HashMap<String, DataSetNoteModel>> getLiveDataGraphs() {
         return liveDataGraphs;
     }
+
+//    public RecipeDatabase getDatabase() {
+//        return database;
+//    }
 }

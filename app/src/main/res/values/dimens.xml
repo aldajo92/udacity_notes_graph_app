@@ -46,4 +46,11 @@
     <dimen name="button_edit_width">80dp</dimen>
     <dimen name="icon_profile_size">60dp</dimen>
 
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_icon_item">32dp</dimen>
+
 </resources>

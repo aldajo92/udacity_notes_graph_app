@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 import com.projects.aldajo92.notesgraph.BaseActivity;
 import com.projects.aldajo92.notesgraph.R;
 import com.projects.aldajo92.notesgraph.SplashActivity;
@@ -26,7 +27,9 @@ import com.projects.aldajo92.notesgraph.home.settings.SettingsFragment;
 import com.projects.aldajo92.notesgraph.models.DataSetNoteModel;
 import com.projects.aldajo92.notesgraph.models.UserModel;
 import com.projects.aldajo92.notesgraph.utils.Constants;
+import com.projects.aldajo92.notesgraph.utils.PreferenceUtil;
 import com.projects.aldajo92.notesgraph.views.ConfirmDeleteDialog;
+import com.projects.aldajo92.notesgraph.widget.service.GraphWidgetService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +42,7 @@ import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EX
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.REQUEST_CREATE_GRAPH;
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.REQUEST_EDIT_GRAPH;
 import static com.projects.aldajo92.notesgraph.details.DetailGraphActivity.EXTRA_DETAIL_NOTE_MODEL;
+import static com.projects.aldajo92.notesgraph.widget.GraphListWidgetService.GRAPHS_ENTRIES_KEY;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, CardDataListener {
 
@@ -71,19 +75,23 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         homeViewModel.getLiveDataGraphs().observe(this, mapDataSetNoteModels -> {
 
             Collection<DataSetNoteModel> collection = mapDataSetNoteModels.values();
-            List<DataSetNoteModel> models = new ArrayList<>(collection);
-            Collections.sort(models, (e1, e2) -> e1.getDate().compareTo(e2.getDate()));
+            List<DataSetNoteModel> listModels = new ArrayList<>(collection);
+            Collections.sort(listModels, (e1, e2) -> e1.getDate().compareTo(e2.getDate()));
 
-            dashBoardFragment.setDataSetNoteModelList(models);
+            dashBoardFragment.setDataSetNoteModelList(listModels);
 
             List<DataSetNoteModel> favoritesList = new ArrayList<>();
-            for(DataSetNoteModel noteModel: models){
+            for(DataSetNoteModel noteModel: listModels){
                 if(noteModel.getIsFavorite()){
                     favoritesList.add(noteModel);
                 }
             }
 
             favoritesFragment.setDataSetNoteModelList(favoritesList);
+
+            String recipesJson = new Gson().toJson(listModels);
+            PreferenceUtil.saveString(HomeActivity.this, GRAPHS_ENTRIES_KEY, recipesJson);
+            GraphWidgetService.startActionUpdateWidgets(HomeActivity.this);
         });
 
 
