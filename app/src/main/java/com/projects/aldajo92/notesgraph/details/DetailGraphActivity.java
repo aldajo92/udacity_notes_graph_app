@@ -55,6 +55,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
 
     private List<Entry> linearEntryList;
     private LineDataSet set1;
+    private LineData lineData;
 
     private DetailGraphViewModel viewModel;
 
@@ -65,9 +66,9 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
 
         initViews();
 
-        initDataSet();
-
         handleExtras();
+
+        initDataSet();
 
         initLinearData();
 
@@ -112,8 +113,11 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
+        lineData = new LineData(dataSets);
+        lineChart.setData(lineData);
 
-        lineChart.setData(new LineData(dataSets));
+        lineData.notifyDataChanged();
+        lineChart.notifyDataSetChanged();
     }
 
     private void handleExtras() {
@@ -210,18 +214,20 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
             });
 
             if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0) {
-                set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
+//                set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
                 set1.setValues(linearEntryList);
                 lineChart.getData().notifyDataChanged();
+                set1.notifyDataSetChanged();
             }
         } else {
             lineChart.clear();
         }
 
+        lineChart.invalidate();
+        lineChart.notifyDataSetChanged();
+
         adapter.addItems(incomesData);
         adapter.setUnits(viewModel.getModel().getUnits());
-        lineChart.notifyDataSetChanged();
-        lineChart.invalidate();
         recyclerView.smoothScrollToPosition(adapter.getItemCount());
     }
 
