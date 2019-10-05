@@ -58,6 +58,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
     private LineData lineData;
 
     private DetailGraphViewModel viewModel;
+    private List<EntryNoteModel> incomesData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,9 +67,9 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
 
         initViews();
 
-        handleExtras();
-
         initDataSet();
+
+        handleExtras();
 
         initLinearData();
 
@@ -91,7 +92,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
         }
     }
 
-    private void initDataSet(){
+    private void initDataSet() {
         set1 = new LineDataSet(linearEntryList, "DataSet");
 
         set1.setDrawIcons(false);
@@ -113,11 +114,8 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
-        lineData = new LineData(dataSets);
-        lineChart.setData(lineData);
 
-        lineData.notifyDataChanged();
-        lineChart.notifyDataSetChanged();
+        lineChart.setData(new LineData(dataSets));
     }
 
     private void handleExtras() {
@@ -153,6 +151,21 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
     }
 
     private void initLinearData() {
+        lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                String result = "";
+                if (value > 0 || value < incomesData.size()) {
+                    result = CalendarUtils.timestampToCalendarString(
+                            incomesData.get((int) value).getTimestamp(),
+                            CalendarUtils.HEADER_FORMAT
+                    );
+                }
+                return result;
+
+            }
+        });
+
         lineChart.getDescription().setEnabled(false);
         lineChart.getLegend().setEnabled(false);
 
@@ -190,6 +203,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
     }
 
     private void setEntries(List<EntryNoteModel> incomesData) {
+        this.incomesData = incomesData;
         if (incomesData != null && !incomesData.isEmpty()) {
             linearEntryList = new ArrayList<>();
             int entriesSize = incomesData.size();
@@ -198,42 +212,30 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
                 linearEntryList.add(new Entry(index, entryNoteModel.getValue()));
             }
 
-            lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
-                @Override
-                public String getAxisLabel(float value, AxisBase axis) {
-                    if (value < 0 || value >= incomesData.size()) {
-                        return "";
-                    } else {
-                        return CalendarUtils.timestampToCalendarString(
-                                incomesData.get((int) value).getTimestamp(),
-                                CalendarUtils.HEADER_FORMAT
-                        );
-                    }
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
 
-                }
-            });
+            lineChart.setData(new LineData(dataSets));
 
             if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0) {
-//                set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
+                set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
                 set1.setValues(linearEntryList);
                 lineChart.getData().notifyDataChanged();
-                set1.notifyDataSetChanged();
             }
         } else {
             lineChart.clear();
         }
 
-        lineChart.invalidate();
-        lineChart.notifyDataSetChanged();
-
         adapter.addItems(incomesData);
         adapter.setUnits(viewModel.getModel().getUnits());
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
         recyclerView.smoothScrollToPosition(adapter.getItemCount());
     }
 
     @Override
     public void onClick(EntryNoteModel entryNoteModel, int position) {
-        DetailEntryDialog dialog = DetailEntryDialog.createInstance(entryNoteModel, position, viewModel.getModel().getUnits(),this::openEdit);
+        DetailEntryDialog dialog = DetailEntryDialog.createInstance(entryNoteModel, position, viewModel.getModel().getUnits(), this::openEdit);
         dialog.show(getSupportFragmentManager(), "name");
     }
 
