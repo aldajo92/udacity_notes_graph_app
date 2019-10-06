@@ -151,20 +151,6 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
     }
 
     private void initLinearData() {
-        lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                String result = "";
-                if (value > 0 || value < incomesData.size()) {
-                    result = CalendarUtils.timestampToCalendarString(
-                            incomesData.get((int) value).getTimestamp(),
-                            CalendarUtils.HEADER_FORMAT
-                    );
-                }
-                return result;
-
-            }
-        });
 
         lineChart.getDescription().setEnabled(false);
         lineChart.getLegend().setEnabled(false);
@@ -216,6 +202,21 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
             dataSets.add(set1);
 
             lineChart.setData(new LineData(dataSets));
+
+            lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getAxisLabel(float value, AxisBase axis) {
+                    if (value < 0 || value >= incomesData.size()) {
+                        return "";
+                    } else {
+                        return CalendarUtils.timestampToCalendarString(
+                                incomesData.get((int) value).getTimestamp(),
+                                CalendarUtils.HEADER_FORMAT
+                        );
+                    }
+
+                }
+            });
 
             if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0) {
                 set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);

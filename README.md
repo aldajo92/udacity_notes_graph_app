@@ -10,3 +10,4 @@
 - Sort elements: https://www.geeksforgeeks.org/collections-sort-java-examples/
 - FireBase ViewModels and LiveData: https://medium.com/@lgvalle/firebase-viewmodels-livedata-cb64c5ee4f95
 - FireBase users with their data: https://www.freecodecamp.org/forum/t/backend-how-to-associate-each-firebase-user-with-their-own-data/168562
+- Get List FireBase Realtime DB with Android: https://grokonez.com/android/firebase-realtime-database-get-list-of-data-example-android
