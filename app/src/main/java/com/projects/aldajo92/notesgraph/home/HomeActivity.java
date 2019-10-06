@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_NOTE_MODEL;
 import static com.projects.aldajo92.notesgraph.create.EditCreateGraphActivity.EXTRA_POSITION;
@@ -241,10 +244,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     private void signOut() {
-        FirebaseAuth.getInstance().signOut();
+        FirebaseAuth instance = FirebaseAuth.getInstance();
+        instance.signOut();
+//        .clearDefaultAccountAndReconnect();
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
         finish();
+
+
+        new GoogleApiClient.Builder(this);
+
     }
 
     private void showFabButton(boolean show) {

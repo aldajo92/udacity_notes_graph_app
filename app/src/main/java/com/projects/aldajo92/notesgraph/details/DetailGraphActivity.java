@@ -55,8 +55,10 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
 
     private List<Entry> linearEntryList;
     private LineDataSet set1;
+    private LineData lineData;
 
     private DetailGraphViewModel viewModel;
+    private List<EntryNoteModel> incomesData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +92,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
         }
     }
 
-    private void initDataSet(){
+    private void initDataSet() {
         set1 = new LineDataSet(linearEntryList, "DataSet");
 
         set1.setDrawIcons(false);
@@ -149,6 +151,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
     }
 
     private void initLinearData() {
+
         lineChart.getDescription().setEnabled(false);
         lineChart.getLegend().setEnabled(false);
 
@@ -186,6 +189,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
     }
 
     private void setEntries(List<EntryNoteModel> incomesData) {
+        this.incomesData = incomesData;
         if (incomesData != null && !incomesData.isEmpty()) {
             linearEntryList = new ArrayList<>();
             int entriesSize = incomesData.size();
@@ -193,6 +197,11 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
                 EntryNoteModel entryNoteModel = incomesData.get(index);
                 linearEntryList.add(new Entry(index, entryNoteModel.getValue()));
             }
+
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+
+            lineChart.setData(new LineData(dataSets));
 
             lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
                 @Override
@@ -227,7 +236,7 @@ public class DetailGraphActivity extends BaseActivity implements EntryDataListen
 
     @Override
     public void onClick(EntryNoteModel entryNoteModel, int position) {
-        DetailEntryDialog dialog = DetailEntryDialog.createInstance(entryNoteModel, position, viewModel.getModel().getUnits(),this::openEdit);
+        DetailEntryDialog dialog = DetailEntryDialog.createInstance(entryNoteModel, position, viewModel.getModel().getUnits(), this::openEdit);
         dialog.show(getSupportFragmentManager(), "name");
     }
 
